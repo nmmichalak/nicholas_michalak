@@ -10,3 +10,5 @@ navbar:
   right:
     - text: "Publications"
       href: publications.html
+    - text: "Presentations"
+      href: presentations.html
