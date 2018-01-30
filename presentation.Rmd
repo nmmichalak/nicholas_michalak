@@ -1,0 +1,24 @@
+---
+title: "Presentations"
+---
+
+# Presentations
+* Michalak, N.M., Takahashi, K.J. (2017). Methods Reform: Motivations, challenges, and best practices. Presentation given at Dal Cin Lab Meeting at the University of Michigan, Ann Arbor, MI. [Slides]()
+
+* Michalak, N.M., Takahashi, K.J., & Lee, J.Y. (2017). Preregistration. Presentation given at Psychology Methods Hour at the University of Michigan, Ann Arbor, MI. [Slides]()
+
+* Michalak, N.M., & Ackerman, J.M. (2017). Infectious disease has many faces: Are they all the same? Presentation given at Social Area Brown Bag at the University of Michigan, Ann Arbor, MI.
+
+* Michalak, N.M. (2017). What's MTurk? Presentation given at the Michigan Psychology Department Orientation, Ann Arbor, MI. [Slides and R code]()
+
+* Michalak, N.M., & Ackerman, J.M. (2017). What does infectious disease look like in the mind? A Reverse Correlation Approach. Presentation given at the at the Human Behavior and Evolution Society Conference, Boise, ID. [Slides]()
+
+* Michalak, N.M. (2017). What makes a good test? Presentation given at Psychology Methods Hour, The University of Michigan, Ann Arbor, MI. [Slides & R code]()
+
+* Michalak, N.M., & Ackerman, J.M. (2017). What does infectious disease look like in the mind? A Reverse Correlation Approach. Presentation given at the Evolutionary Psychology Preconference at the Society for Personality and Social Psychology Convention, San Antonio, TX. [Slides]()
+
+* Michalak, N.M., & Edelstein, R.S. (2017). Power play: Status-sensitive men may strategically modulate their desire for intergroup dominance (new data presented). Poster presented at the Society for Personality and Social Psychology Convention, San Antonio, TX. [Slides]()
+
+* Michalak, N.M. (2016). What's MTurk? Presentation given at the Michigan Psychology Department Orientation, Ann Arbor, MI. [Slides]()
+
+* Michalak, N.M., & Edelstein, R.S. (2016) Power play: Status-sensitive men (indexed by their change in testosterone) may strategically modulate their desire for intergroup dominance. Presentation given at the Connecting Minds in Social Neuroendocrinology and Evolution Preconference at the Human Behavior and Evolution Society Conference, Vancouver, Canada. [Slides]()
