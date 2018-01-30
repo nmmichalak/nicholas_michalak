@@ -1,0 +1,9 @@
+name: "Nicholas M. Michalak"  
+author: "Nick Michalak"  
+output_dir: "docs"  
+output:  
+  html_document:  
+    self_contained: no  
+    theme: flatly  
+navbar:  
+  title: "Nicholas M. Michalak"  
