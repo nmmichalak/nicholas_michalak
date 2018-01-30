@@ -1,2 +1,2 @@
-# nicholas_michalak
-Academic webpage
+# Cicholas M. Michalak
+Academic webpage for Nick Michalak.
