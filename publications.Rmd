@@ -2,4 +2,4 @@
 title: "Publications"
 ---
 
-Publication list goes here.
+My publication list goes here.

@@ -4,6 +4,9 @@ output_dir: "docs"
 output:  
   html_document:  
     self_contained: no  
-    theme: flatly  
-navbar:  
-  title: "Nicholas M. Michalak"  
+    theme: readable  
+navbar:
+  title: "Nicholas M. Michalak"
+  right:
+    - text: "Publications"
+      href: publications.html
