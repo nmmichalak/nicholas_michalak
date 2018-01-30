@@ -12,3 +12,9 @@ navbar:
       href: publications.html
     - text: "Presentations"
       href: presentations.html
+    - text: "Vitae"
+      href: vitae.html
+    - text: "Blog"
+      href: blog.html
+    - text: "Contact"
+      href: contact.html
