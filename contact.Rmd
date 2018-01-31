@@ -7,7 +7,7 @@ Department of Psychology
 530 Church Street  
 Ann Arbor, MI 48109-1043  
 Office: 3236 East Hall  
-[**nickmm@umich.edu**](nickmm@umich.edu)  
+[**nickmm@umich.edu**](mailto:nickmm@umich.edu)  
 [**Open Science Framework**](https://osf.io/gb5xj/)  
 [**GitHub**](https://github.com/nmmichalak)  
 [**LinkedIn**](https://www.linkedin.com/in/nicholas-michalak-27ab2021/)    
