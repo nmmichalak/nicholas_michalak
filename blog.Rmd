@@ -1,3 +1,14 @@
 ---
 title: "Novum R-ganum"
 ---
+
+## 2018 (potential posts)
+* Testing Indirect Effects in R
+* Testing Moderated Indirect Effects in R
+* Repeated Measures in R
+* The Equal Variance Assumption in Between-Subjects Contrasts
+* The Compound Symmetry Assumption in Multi-Level Models
+* Using Principal Components or Factor Analysis in Social Psychology
+* Plotting Interactions in R
+* Plotting Adjusted Associations in R
+
