@@ -6,7 +6,9 @@ output:
     self_contained: no  
     theme: readable
     css: style.css
-navbar:
+navbar:  
+  theme: readable
+  css: style.css
   title: "Nicholas M. Michalak"
   right:
     - text: "Publications"
