@@ -3,16 +3,16 @@ title: "Testing indirect effects/mediation in R"
 ---
 
 ## What is mediation?
-There are many ways to define mediation and mediators. Here's one way: Mediation is the process by which one variable transmits an effect onto another. For example, as room temperature increases, people get thirstier, and then they drink more water. In this case, thirst transmits the effect of room temperature on water drinking.
+> There are many ways to define mediation and mediators. Here's one way: Mediation is the process by which one variable transmits an effect onto another. For example, as room temperature increases, people get thirstier, and then they drink more water. In this case, thirst transmits the effect of room temperature on water drinking.
 
 ## What is an indirect effect?
-The indirect effect quantifies a mediation effect, if such an effect exists. Referring to the thirst example above, in statistical terms, the indirect effect quantifies the extent to which room temperature affects water drinking indirectly through thirstiness. If you're familiar with interpreting regression coefficients and the idea of controlling for other variables, then you might find it intuitive to think of the indirect effect as the decrease in the relationship between room temperature and water drinking after you've partialed out the association between room temperature and thirtiness. In other words, how much does the coefficient for room temperature decrease when you control for thirstiness?
+> The indirect effect quantifies a mediation effect, if such an effect exists. Referring to the thirst example above, in statistical terms, the indirect effect quantifies the extent to which room temperature affects water drinking indirectly through thirstiness. If you're familiar with interpreting regression coefficients and the idea of controlling for other variables, then you might find it intuitive to think of the indirect effect as the decrease in the relationship between room temperature and water drinking after you've partialed out the association between room temperature and thirtiness. In other words, how much does the coefficient for room temperature decrease when you control for thirstiness?
 
 ## Model and Conceptual Assumptions
-* **Correct functional form.** Your model variables share linear relationships and don't interact with eachother.
-* **No omitted influences.** This one is hard: Your model accounts for all relevant influences on the variables included. All models are wrong, but how wrong is yours? 
-* **Accurate measurement.** Your measurements are valid and reliable. Note that unreliable measures can't be valid, and reliable measures don't necessairly measure just one construct or even your construct.
-* **Well-behaved residuals.** Residuals (i.e., prediction errors) aren't correlated with predictor variables or eachother, and residuals have constant variance across values of your predictor variables. Also, residual error terms aren't correlated across regression equations. This could happen if, for example, some omitted variable causes both thirst and water drinking.
+> * **Correct functional form.** Your model variables share linear relationships and don't interact with eachother.
+> * **No omitted influences.** This one is hard: Your model accounts for all relevant influences on the variables included. All models are wrong, but how wrong is yours? 
+> * **Accurate measurement.** Your measurements are valid and reliable. Note that unreliable measures can't be valid, and reliable measures don't necessairly measure just one construct or even your construct.
+> * **Well-behaved residuals.** Residuals (i.e., prediction errors) aren't correlated with predictor variables or eachother, and residuals have constant variance across values of your predictor variables. Also, residual error terms aren't correlated across regression equations. This could happen if, for example, some omitted variable causes both thirst and water drinking.
 
 ## Libraries
 
@@ -57,9 +57,9 @@ thirst_dat %>%
 ```
 
 ## Write model to test indirect effect using `sem()` from lavaan
-> * `~` = Regress on
-> * Within the regression models, I label coefficients with the star.
-> * `:=` = define a new parameter. Note that the stars after `:=` mean multiply
+> * `~` = Regress onto ...
+> * Within the regression models, I label coefficients with the astrix.
+> * `:=` = Define a new parameter. Note when you define new parameter with `:=`, you can use the astrix to multiply values
 > * For more details about lavaan syntax, see the tutorials tab at the lavaan website (linked in Resources below)
 
 ```{r}
@@ -88,7 +88,7 @@ set.seed(1234)
 ```
 
 ## Fit model
-> You must specify bootstrapping in the sem function
+> You must specify bootstrapping in the `sem()` function
 
 ```{r}
 
@@ -135,9 +135,9 @@ with(thirst_dat, mediation.effect.plot(x = room_temp, mediator = thirst, dv = co
 
 ```
 
-> The plot above depicts the relationship between the proposed mediator (thirstiness) and outcome variable (water drank, in dl) at different levels of the proposed antecedent (room temperature, in degrees Fahrenheit). The plot doesn't include this, but if you draw a right triangle in between the vertical lines marking the *a* coefficient and using the slope as the hypotenuse, then you can eyeball the indirect effect, which is height of this triangle. I wish this function drew that triangle and labeled the indirect effect. Close enough, I guess.
+> The plot above depicts the relationship between the proposed mediator (thirstiness) and outcome variable (water drank, in dl) at different levels of the proposed antecedent (room temperature, in degrees Fahrenheit). The plot doesn't label this, but if check out the right triangle formed in between the vertical lines marking the *a* coefficient, you'll see the indirect effect, which is height of this triangle.
 
-## Test same model using `mediate()` from psych
+## Test the same model using `mediate()` from psych
 
 ```{r}
 
@@ -146,10 +146,10 @@ mediate(consume ~ room_temp + thirst, data = thirst_dat, n.iter = 10000) %>% pri
 ```
 
 ## Resources
-* MacKinnon, D. P. (2008). *Introduction to statistical mediation analysis.* New York, NY: Lawrence Erlbaum Associates.
-* Revelle, W. (2017) How to use the psych package for mediation/moderation/regression analysis. [[**.pdf**](http://personality-project.org/r/psych/HowTo/mediation.pdf)]
-* Rosseel, Y. (2012). Lavaan: An R package for structural equation modeling and more. Version 0.5–12 (BETA). *Journal of statistical software, 48*(2), 1-36. [[**website**](http://lavaan.ugent.be/)]
-* Rucker, D. D., Preacher, K. J., Tormala, Z. L., & Petty, R. E. (2011). Mediation analysis in social psychology: Current practices and new recommendations. *Social and Personality Psychology Compass, 5*(6), 359-371. [[**.pdf**](http://quantpsy.org/pubs/rucker_preacher_tormala_petty_2011.pdf)]
+> * MacKinnon, D. P. (2008). *Introduction to statistical mediation analysis.* New York, NY: Lawrence Erlbaum Associates.
+> * Revelle, W. (2017) How to use the psych package for mediation/moderation/regression analysis. [[**.pdf**](http://personality-project.org/r/psych/HowTo/mediation.pdf)]
+> * Rosseel, Y. (2012). Lavaan: An R package for structural equation modeling and more. Version 0.5–12 (BETA). *Journal of statistical software, 48*(2), 1-36. [[**website**](http://lavaan.ugent.be/)]
+> * Rucker, D. D., Preacher, K. J., Tormala, Z. L., & Petty, R. E. (2011). Mediation analysis in social psychology: Current practices and new recommendations. *Social and Personality Psychology Compass, 5*(6), 359-371. [[**.pdf**](http://quantpsy.org/pubs/rucker_preacher_tormala_petty_2011.pdf)]
 
 ## General word of caution
 > Above, I listed resources prepared by experts on these and related topics. Although I generally do my best to write accurate posts, don't assume my posts are 100% accurate or that they apply to your data or research questions. Trust statistics and methodology experts, not blog posts.
