@@ -2,4 +2,4 @@
 title: "About"
 ---
 
-I'm a PhD candidate in social psychology working with Josh Ackerman ([**Evolutionary Social Psychology Lab**](https://sites.lsa.umich.edu/esplab/)) at the University of Michigan. I study social perception from an evolutionary perspective.
+> I'm a PhD candidate in social psychology working with Josh Ackerman ([**Evolutionary Social Psychology Lab**](https://sites.lsa.umich.edu/esplab/)) at the University of Michigan. I study social perception from an evolutionary perspective.
