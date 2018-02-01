@@ -1,0 +1,112 @@
+---
+title: "Testing indirect effects/mediation in R"
+---
+
+## What is mediation?
+
+## What is an indirect effect?
+
+## Model and Conceptual Assumptions
+
+## Resources
+
+## Libraries
+
+```{r, message = FALSE, warning = FALSE}
+
+library(tidyverse)
+library(knitr)
+library(lavaan)
+library(psych)
+library(MBESS)
+
+```
+
+## Data
+
+```{r, message = FALSE, warning = FALSE}
+
+thirst_dat <- "data/mackinnon_2009_t3.1.csv" %>% read_csv()
+
+```
+
+### Print first and last five observations
+
+```{r}
+
+thirst_dat %>% 
+  headTail() %>% 
+  kable()
+
+```
+
+## Visualize relationships
+
+```{r}
+
+thirst_dat %>% 
+  select(room_temp, thirst, consume) %>% 
+  pairs.panels()
+
+```
+
+## Write model to test indirect effect using `sem()` from lavaan
+
+```{r}
+
+mod1 <- "# a path
+         thirst ~ a * room_temp
+
+         # b path
+         consume ~ b * thirst
+
+         # c prime path 
+         consume ~ cp * room_temp
+
+         # indirect and total effects
+         ab := a * b
+         total := cp + ab"
+
+```
+
+## Fit model
+
+```{r}
+
+fsem1 <- sem(mod1, data = thirst_dat, se = "standard")
+
+```
+
+## Summarize model
+
+```{r}
+
+summary(fsem1, standardized = TRUE)
+
+```
+
+## Print all model parameters
+
+```{r}
+
+parameterestimates(fsem1, boot.ci.type = "bca.simple", standardized = TRUE) %>% 
+  kable()
+
+```
+
+## Interpretation
+
+## Test same model using `mediation()` from MBESS
+
+```{r}
+
+with(thirst_dat, mediation(x = room_temp, mediator = thirst, dv = consume, bootstrap = FALSE, which.boot = "BCa"))
+
+```
+
+
+
+
+
+
+

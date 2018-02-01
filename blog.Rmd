@@ -3,7 +3,7 @@ title: "Novum R-ganum"
 ---
 
 ## 2018 (potential posts)
-* Testing Indirect Effects in R
+* Testing Indirect Effects/Mediation in R [[**.html**](blog_entries/2018/nrg01/nrg01.html)]
 * Testing Moderated Indirect Effects in R
 * Repeated Measures in R
 * The Equal Variance Assumption in Between-Subjects Contrasts
