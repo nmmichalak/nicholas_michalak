@@ -2,6 +2,8 @@
 title: "Novum R-ganum"
 ---
 
+## About Novum R-ganum [[**.html**](blog_entries/2018/nrg00/nrg00.html)]
+
 ## 2018
 * Testing Indirect Effects/Mediation in R [[**.html**](blog_entries/2018/nrg01/nrg01.html)]
 * Testing Moderated Indirect Effects in R
