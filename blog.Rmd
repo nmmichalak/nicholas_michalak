@@ -2,14 +2,16 @@
 title: "Novum R-ganum"
 ---
 
-## About Novum R-ganum [[**.html**](blog_entries/2018/nrg00/nrg00.html)]
+### About [[**.html**](blog_entries/2018/nrg00/nrg00.html)]
+> 1. R tutorials made with psychologists in mind
+> 2. Statistics & Methods
 
 ## 2018
-* Testing Indirect Effects/Mediation in R [[**.html**](blog_entries/2018/nrg01/nrg01.html)]
-* Testing Moderated Indirect Effects in R
-* Repeated Measures in R
-* The Equal Variance Assumption in Between-Subjects Contrasts
-* The Compound Symmetry Assumption in Multi-Level Models
-* Using Principal Components or Factor Analysis in Social Psychology
-* Plotting Interactions in R
-* Plotting Adjusted Associations in R
+> * Testing Indirect Effects/Mediation in R [[**.html**](blog_entries/2018/nrg01/nrg01.html)]
+> * Testing Moderated Indirect Effects in R
+> * Repeated Measures in R
+> * The Equal Variance Assumption in Between-Subjects Contrasts
+> * The Compound Symmetry Assumption in Multi-Level Models
+> * Using Principal Components or Factor Analysis in Social Psychology
+> * Plotting Interactions in R
+> * Plotting Adjusted Associations in R
