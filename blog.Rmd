@@ -2,7 +2,7 @@
 title: "Novum R-ganum"
 ---
 
-### About [[**.html**](blog_entries/2018/nrg00/nrg00.html)]
+## About [[**.html**](blog_entries/2018/nrg00/nrg00.html)]
 > 1. R tutorials made with psychologists in mind
 > 2. Statistics & Methods
 
