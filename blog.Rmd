@@ -2,7 +2,7 @@
 title: "Novum R-ganum"
 ---
 
-## 2018 (potential posts)
+## 2018
 * Testing Indirect Effects/Mediation in R [[**.html**](blog_entries/2018/nrg01/nrg01.html)]
 * Testing Moderated Indirect Effects in R
 * Repeated Measures in R
@@ -11,4 +11,3 @@ title: "Novum R-ganum"
 * Using Principal Components or Factor Analysis in Social Psychology
 * Plotting Interactions in R
 * Plotting Adjusted Associations in R
-
