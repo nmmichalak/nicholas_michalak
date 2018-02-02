@@ -27,7 +27,7 @@ library(MBESS)
 ```
 
 ## Data
-> I took the data from Table 3.1 (Mackinnon, 2008, p. 56) [[**.csv**](https://raw.githubusercontent.com/nmmichalak/nicholas_michalak/master/blog_entries/2018/nrg01/data/mackinnon_2008_t3.1.csv)]
+> I took the data from Table 3.1 in Mackinnon (2008, p. 56) [[**.csv**](https://raw.githubusercontent.com/nmmichalak/nicholas_michalak/master/blog_entries/2018/nrg01/data/mackinnon_2008_t3.1.csv)]
 
 ```{r, message = FALSE, warning = FALSE}
 
