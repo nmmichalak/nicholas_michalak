@@ -1,5 +1,8 @@
 ---
 title: "Novum R-ganum"
+output: 
+  html_document: 
+    theme: readable
 ---
 
 ## About [[**.html**](blog_entries/2018/nrg00/nrg00.html)]

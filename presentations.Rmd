@@ -1,5 +1,8 @@
 ---
 title: "Presentations"
+output: 
+  html_document: 
+    theme: readable
 ---
 
 ## 2017

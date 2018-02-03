@@ -1,5 +1,8 @@
 ---
 title: "Workshops"
+output: 
+  html_document: 
+    theme: readable
 ---
 
 > * R Programming for Research (co-taught with Iris Wang) [[**GitHub**](https://github.com/nmmichalak/R_programming_for_research)]

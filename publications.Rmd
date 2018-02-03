@@ -1,5 +1,8 @@
 ---
 title: "Publications"
+output: 
+  html_document: 
+    theme: readable
 ---
 
 ## Unpublished Manuscripts
