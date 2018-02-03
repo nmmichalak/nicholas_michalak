@@ -14,6 +14,9 @@ title: "Testing indirect effects/mediation in R"
 > * **Accurate measurement.** Your measurements are valid and reliable. Note that unreliable measures can't be valid, and reliable measures don't necessairly measure just one construct or even your construct.
 > * **Well-behaved residuals.** Residuals (i.e., prediction errors) aren't correlated with predictor variables or eachother, and residuals have constant variance across values of your predictor variables. Also, residual error terms aren't correlated across regression equations. This could happen if, for example, some omitted variable causes both thirst and water drinking.
 
+## Conceptual Diagram
+![Figure 1. Room temperature is associated with water drinking indirectly through thirstiness ](images/figure_01.jpg)  
+
 ## Libraries
 
 ```{r, message = FALSE, warning = FALSE}
@@ -106,7 +109,7 @@ summary(fsem1, standardized = TRUE)
 ```
 
 ## Print all model parameters
-> in the boot.ci.type argument, I ask for bia-corrected and accelerated confidence intervals
+> In the boot.ci.type argument, I ask for bia-corrected and accelerated confidence intervals.
 
 ```{r}
 

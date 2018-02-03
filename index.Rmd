@@ -2,4 +2,8 @@
 title: "About"
 ---
 
-> I'm a PhD candidate in social psychology working with Josh Ackerman ([**Evolutionary Social Psychology Lab**](https://sites.lsa.umich.edu/esplab/)) at the University of Michigan. I study social perception from an evolutionary perspective.
+> I'm a PhD candidate in social psychology working with Josh Ackerman [[**.html**](https://sites.lsa.umich.edu/esplab/)] at the University of Michigan. Before I started at Michigan, I received my bachelor's degree in neuroscience from the University of St. Thomas in St. Paul, MN. After graduating, I worked as a research assistant and lab manager at the University of Minnesota and the Carlson School of Management.
+
+> Broadly, I use advanced methods and statistics to study how both modern and evolutionarily-relevant threats affect how people perceive themselves and others.
+
+
