@@ -1,5 +1,8 @@
 ---
 title: "Learn R for Psychology Research: A Crash Course"
+output: 
+  html_document: 
+    theme: readable
 ---
 
 # Introduction
