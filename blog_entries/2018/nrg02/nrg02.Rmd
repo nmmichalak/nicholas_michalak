@@ -5,7 +5,7 @@ output:
     theme: readable
 ---
 
-> This post builds on a previous post on Testing Indirect Effects/Mediation in R [[**.html**](Nicholas_michalak/blog_entries/2018/nrg01/nrg01.html)].
+> This post builds on a previous post on Testing Indirect Effects/Mediation in R [[**.html**](http://nickmichalak.com/blog_entries/2018/nrg01/nrg01.html)].
 
 ## What is mediation?
 > There are many ways to define mediation and mediators. Here's one way: Mediation is the process by which one variable transmits an effect onto another through one or more mediating variables. For example, as room temperature increases, people get thirstier, and then they drink more water. In this case, thirst transmits the effect of room temperature on water drinking.
