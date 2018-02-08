@@ -22,6 +22,10 @@ library(tidyverse)
 library(knitr)
 library(psych)
 library(effects)
+library(multcomp)
+
+# In the code belo,w I want select from the dplyr package from the tidyverse
+select <- dplyr::select
 
 ```
 
@@ -153,6 +157,33 @@ thirst_data %>%
   geom_ribbon(data = pred_table01, mapping = aes(x = room_temp_c, y = fit, ymin = lower, ymax = upper, fill = phys_fit_lbl), alpha = 0.5) +
   scale_x_continuous(breaks = pretty(thirst_data$room_temp_c)) +
   scale_y_continuous(breaks = pretty(thirst_data$thirst))
+
+```
+
+## Test simple slopes
+
+## Save matrix of contrasts
+
+```{r}
+
+contmat01 <- rbind(normal = c(0, 1, 0, -0.5),
+                   fit = c(0, 1, 0, -0.5))
+
+```
+
+## Save general linear hypothesis object output from `glht()`
+
+```{r}
+
+glht01 <- glht(model = flm01, linfct = contmat01)
+
+```
+
+## Contrast summary
+
+```{r}
+
+summary(glht01, test = adjusted("none"))
 
 ```
 
