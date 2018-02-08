@@ -1,0 +1,165 @@
+---
+title: "Probing and Plotting Interactions in R"
+output: 
+  html_document: 
+    theme: readable
+---
+
+## What is moderation?
+> Moderation refers to how some variable modifies the direction or the strength of the association between two variables. In other words, a moderator variable qualifies the relation between two variables. A moderator is not a part of some proposed causal process; instead, it interacts with the relation between two variables in such a way that their relation is stronger, weaker, or opposite in direction—depending on values of the moderator. For example, as room temperature increases, people may report feeling thirstier. But that may depend on how physically fit people are. Maybe physically fit people don't report feeling thirsty as room temperature increases, or maybe physically fit people—compared to less physically fit people—have a higher room temperature threshold at which they start feeling thirstier. In this example, the product of one predictor variables and the moderator—their interaction—quantifies the moderator's effect. Statistically, the product term accounts for variability in thirst or water drinking independently of either predictor variable by itself.
+
+## Model and Conceptual Assumptions
+> * **Correct functional form.** Your model variables share linear relationships and don't interact with eachother.
+> * **No omitted influences.** This one is hard: Your model accounts for all relevant influences on the variables included. All models are wrong, but how wrong is yours? 
+> * **Accurate measurement.** Your measurements are valid and reliable. Note that unreliable measures can't be valid, and reliable measures don't necessairly measure just one construct or even your construct.
+> * **Well-behaved residuals.** Residuals (i.e., prediction errors) aren't correlated with predictor variables or eachother, and residuals have constant variance across values of your predictor variables. Also, residual error terms aren't correlated across regression equations. This could happen if, for example, some omitted variable causes both thirst and water drinking.
+
+## Libraries
+
+```{r, message = FALSE, warning = FALSE}
+
+library(tidyverse)
+library(knitr)
+library(psych)
+library(effects)
+
+```
+
+## Data: Example 1
+> I combined the data from Table 3.1 in Mackinnon (2008, p. 56) [[**.csv**](https://raw.githubusercontent.com/nmmichalak/nicholas_michalak/master/blog_entries/2018/nrg01/data/mackinnon_2008_t3.1.csv)] with those from Table 10.1 in Mackinnon (2008, p. 291) [[**.csv**](https://raw.githubusercontent.com/nmmichalak/nicholas_michalak/master/blog_entries/2018/nrg02/data/mackinnon_2008_t10.1.csv)]
+
+```{r, message = FALSE, warning = FALSE}
+
+thirst_norm <- "https://raw.githubusercontent.com/nmmichalak/nicholas_michalak/master/blog_entries/2018/nrg01/data/mackinnon_2008_t3.1.csv" %>% read_csv()
+thirst_fit <- "https://raw.githubusercontent.com/nmmichalak/nicholas_michalak/master/blog_entries/2018/nrg02/data/mackinnon_2008_t10.1.csv" %>% read_csv()
+
+```
+
+## Code new IDs for fit data
+
+```{r}
+
+thirst_fit <- thirst_fit %>% mutate(id = 51:100)
+
+```
+
+## Add column in both datasets that identifies fitness group
+> Unfit = -0.5 and Fit = 0.5
+
+```{r}
+
+thirst_norm <- thirst_norm %>% mutate(phys_fit = -0.5)
+thirst_fit <- thirst_fit %>% mutate(phys_fit = 0.5)
+
+```
+
+## Bind unfit and fit data by rows
+> Imagine stacking these datasets on top of eachother
+
+```{r}
+
+thirst_data <- bind_rows(thirst_norm, thirst_fit)
+
+```
+
+## Mean-center predictors
+> i.e., mean-center everything but the consume variable
+
+```{r}
+
+thirst_data <- thirst_data %>% mutate(room_temp_c = room_temp - mean(room_temp),
+                                      thirst_c = thirst - mean(thirst))
+
+```
+
+### Print first and last five observations
+
+```{r}
+
+thirst_data %>% 
+  headTail() %>% 
+  kable()
+
+```
+
+## Visualize relationships
+> It's always a good idea to look at your data. Check some assumptions. 
+
+```{r}
+
+thirst_data %>% 
+  select(room_temp, room_temp_c, thirst, thirst_c, consume, phys_fit) %>% 
+  pairs.panels()
+
+```
+
+
+## Fit linear model
+
+```{r}
+
+flm01 <- lm(thirst ~ room_temp_c * phys_fit, data = thirst_data)
+
+```
+
+## Summarize linear model
+
+```{r}
+
+summary(flm01)
+
+```
+
+## Print 95% confidence intervals
+
+```{r}
+
+confint(flm01)
+
+```
+
+## Plot scatterplot with slope estimates for each fitness group
+
+### Save table of predicted values
+
+```{r}
+
+pred_table01 <- effect(term = "room_temp_c:phys_fit", mod = flm01, x.var = "room_temp_c", xlevels = list(phys_fit = c(-0.5, 0.5))) %>%
+  as_tibble %>% 
+  mutate(phys_fit_lbl = phys_fit %>% recode(`-0.5` = "Normal", `0.5` = "Fit"))
+
+# print table
+kable(pred_table01)
+
+```
+
+### Save character variable with condition labels
+
+```{r}
+
+thirst_data <- thirst_data %>% 
+  mutate(phys_fit_lbl = phys_fit %>% recode(`-0.5` = "Normal", `0.5` = "Fit"))
+
+```
+
+### ggplot2
+
+```{r}
+
+thirst_data %>% 
+  ggplot(mapping = aes(x = room_temp_c, y = thirst)) +
+  geom_point(mapping = aes(color = phys_fit_lbl)) +
+  geom_line(data = pred_table01, mapping = aes(x = room_temp_c, y = fit, linetype = phys_fit_lbl)) +
+  geom_ribbon(data = pred_table01, mapping = aes(x = room_temp_c, y = fit, ymin = lower, ymax = upper, fill = phys_fit_lbl), alpha = 0.5) +
+  scale_x_continuous(breaks = pretty(thirst_data$room_temp_c)) +
+  scale_y_continuous(breaks = pretty(thirst_data$thirst))
+
+```
+
+## Resources
+> * Cohen, J., Cohen, P., West, S. G., & Aiken, L. S. (2003). *Applied multiple regression/correlation analysis for the behavioral sciences*. New York, NY: Routledge.
+> * MacKinnon, D. P. (2008). *Introduction to statistical mediation analysis.* New York, NY: Lawrence Erlbaum Associates.
+> * Revelle, W. (2017) How to use the psych package for mediation/moderation/regression analysis. [[**.pdf**](http://personality-project.org/r/psych/HowTo/mediation.pdf)]
+
+## General word of caution
+> Above, I listed resources prepared by experts on these and related topics. Although I generally do my best to write accurate posts, don't assume my posts are 100% accurate or that they apply to your data or research questions. Trust statistics and methodology experts, not blog posts.

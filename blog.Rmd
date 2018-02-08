@@ -17,5 +17,5 @@ output:
 > * The Equal Variance Assumption in Between-Subjects Contrasts
 > * The Compound Symmetry Assumption in Multi-Level Models
 > * Using Principal Components or Factor Analysis in Social Psychology
-> * Plotting Interactions in R
+> * Probing and Plotting Interactions in R [[**.html**](blog_entries/2018/nrg04/nrg04.html)]
 > * Plotting Adjusted Associations in R
