@@ -125,17 +125,23 @@ $(document).ready(function () {
 <div id="what-is-moderation" class="section level2">
 <h2>What is moderation?</h2>
 <blockquote>
-<p>Moderation refers to how some variable modifies the direction or the strength of the association between two variables. In other words, a moderator variable qualifies the relation between two variables. A moderator is not a part of some proposed causal process; instead, it interacts with the relation between two variables in such a way that their relation is stronger, weaker, or opposite in direction—depending on values of the moderator. For example, as room temperature increases, people may report feeling thirstier. But that may depend on how physically fit people are. Maybe physically fit people don’t report feeling thirsty as room temperature increases, or maybe physically fit people—compared to less physically fit people—have a higher room temperature threshold at which they start feeling thirstier. In this example, the product of one predictor variables and the moderator—their interaction—quantifies the moderator’s effect. Statistically, the product term accounts for variability in thirst or water drinking independently of either predictor variable by itself.</p>
+<p>Moderation refers to how some variable modifies the direction or the strength of the association between two variables. In other words, a moderator variable qualifies the relation between two variables. A moderator is not a part of some proposed causal process; instead, it interacts with the relation between two variables in such a way that their relation is stronger, weaker, or opposite in direction—depending on values of the moderator. For example, as room temperature increases, people may report feeling thirstier. But that may depend on how physically fit people are. Maybe physically fit people don’t report feeling thirsty as room temperature increases, or maybe physically fit people—compared to less physically fit people—have a higher room temperature threshold at which they start feeling thirstier. In this example, the product of one predictor variable and the moderator—their interaction—quantifies the moderator’s effect. Statistically, the product term accounts for variability in thirst or water drinking independently of either predictor variable by itself.</p>
+</blockquote>
+</div>
+<div id="what-is-a-simple-slope" class="section level2">
+<h2>What is a simple slope?</h2>
+<blockquote>
+<p>In a 2-way interaction, a simple slope represents the relation between two variables (e.g., x and y) at a specific value of a third variable (e.g., a moderator variable). In this sense, a simple slope is a conditional relationship between two variables. For example, <em>if</em> participants are physically fit, <em>then</em> as room temperature increases, thirst also increases.</p>
 </blockquote>
 </div>
 <div id="model-and-conceptual-assumptions" class="section level2">
 <h2>Model and Conceptual Assumptions</h2>
 <blockquote>
 <ul>
-<li><strong>Correct functional form.</strong> Your model variables share linear relationships and don’t interact with eachother.</li>
+<li><strong>Correct functional form.</strong> Your model variables share linear relationships.</li>
 <li><strong>No omitted influences.</strong> This one is hard: Your model accounts for all relevant influences on the variables included. All models are wrong, but how wrong is yours?</li>
 <li><strong>Accurate measurement.</strong> Your measurements are valid and reliable. Note that unreliable measures can’t be valid, and reliable measures don’t necessairly measure just one construct or even your construct.</li>
-<li><strong>Well-behaved residuals.</strong> Residuals (i.e., prediction errors) aren’t correlated with predictor variables or eachother, and residuals have constant variance across values of your predictor variables. Also, residual error terms aren’t correlated across regression equations. This could happen if, for example, some omitted variable causes both thirst and water drinking.</li>
+<li><strong>Well-behaved residuals.</strong> Residuals (i.e., prediction errors) aren’t correlated with predictor variables or eachother, and residuals have constant variance across values of your predictor variables.</li>
 </ul>
 </blockquote>
 </div>
@@ -338,6 +344,14 @@ thirst_fit &lt;- thirst_fit %&gt;% mutate(phys_fit = 0.5)</code></pre>
 <h2>Plot scatterplot with slope estimates for each fitness group</h2>
 <div id="save-table-of-predicted-values" class="section level3">
 <h3>Save table of predicted values</h3>
+<blockquote>
+<ul>
+<li>term: interaction term in your model</li>
+<li>mod: your fitted model object</li>
+<li>x.var: Which variable would you want to see on your x-axis?</li>
+<li>xlevels: Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. <em>Importantly</em>, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables’ observed range of values (unless that’s your goal).</li>
+</ul>
+</blockquote>
 <pre class="r"><code>pred_table01 &lt;- effect(term = &quot;room_temp_c:phys_fit&quot;, mod = flm01, x.var = &quot;room_temp_c&quot;, xlevels = list(phys_fit = c(-0.5, 0.5), room_temp_c = seq(-3, 3, 1))) %&gt;%
   as_tibble %&gt;% 
   mutate(phys_fit_lbl = phys_fit %&gt;% recode(`-0.5` = &quot;Normal&quot;, `0.5` = &quot;Fit&quot;))
@@ -493,6 +507,9 @@ kable(pred_table01)</code></pre>
 </div>
 <div id="ggplot2" class="section level3">
 <h3>ggplot2</h3>
+<blockquote>
+<p>Run this code line by line. The idea is that you’re first generating a scatterplot with your raw values and then you’re “adding (+)” layers which use the predicted values your tabled above. Put another way, <code>geom_line()</code> and <code>geom_ribbon()</code> are using data from the table of predicted values; <code>geom_point()</code> is using data from your dataset.</p>
+</blockquote>
 <pre class="r"><code>thirst_data %&gt;% 
   ggplot(mapping = aes(x = room_temp_c, y = thirst)) +
   geom_point(mapping = aes(color = phys_fit_lbl)) +
@@ -512,15 +529,32 @@ kable(pred_table01)</code></pre>
 </div>
 <div id="save-matrix-of-contrasts" class="section level2">
 <h2>Save matrix of contrasts</h2>
+<blockquote>
+<ul>
+<li>each coefficient gets a contrast weight<br />
+</li>
+<li>0 means don’t use it; cross it out.<br />
+</li>
+<li>intercept = 0, room_temp_c = 1, phys_fit = 0, room_temp_c:phys_fit = -0.5<br />
+</li>
+<li>in words, test the linear effect of room_temp_c when phys_fit = -0.5 (normal participants)</li>
+</ul>
+</blockquote>
 <pre class="r"><code>contmat01 &lt;- rbind(normal = c(0, 1, 0, -0.5),
                    fit = c(0, 1, 0, 0.5))</code></pre>
 </div>
 <div id="save-general-linear-hypothesis-object-output-from-glht" class="section level2">
 <h2>Save general linear hypothesis object output from <code>glht()</code></h2>
+<blockquote>
+<p><code>glht()</code> takes your model and your contrast matrix you made above.</p>
+</blockquote>
 <pre class="r"><code>glht01 &lt;- glht(model = flm01, linfct = contmat01)</code></pre>
 </div>
 <div id="contrast-summary" class="section level2">
 <h2>Contrast summary</h2>
+<blockquote>
+<p>test = <code>adjusted(&quot;none&quot;)</code> means, “Don’t correct for multiple comparisons.”</p>
+</blockquote>
 <pre class="r"><code>summary(glht01, test = adjusted(&quot;none&quot;))</code></pre>
 <pre><code>## 
 ##   Simultaneous Tests for General Linear Hypotheses
@@ -700,9 +734,24 @@ kable(pred_table01)</code></pre>
 </div>
 <div id="save-quantiles-of-mean-centered-age" class="section level2">
 <h2>Save quantiles of mean-centered age</h2>
-<pre class="r"><code>xage_cqs &lt;- quantile(endurance$xage_c)</code></pre>
+<blockquote>
+<p>You’ll use these for plotting and simple slopes.</p>
+</blockquote>
+<pre class="r"><code>(xage_cqs &lt;- quantile(endurance$xage_c))</code></pre>
+<pre><code>##         0%        25%        50%        75%       100% 
+## -29.183673  -6.183673  -1.183673   6.816327  32.816327</code></pre>
 <div id="save-table-of-predicted-values-1" class="section level3">
 <h3>Save table of predicted values</h3>
+<blockquote>
+<ul>
+<li><code>xage_cqs[2:4]</code> means, “subset the 2nd, 3rd, and 4th value in xage_cqs”<br />
+</li>
+<li>term: interaction term in your model</li>
+<li>mod: your fitted model object</li>
+<li>x.var: Which variable would you want to see on your x-axis?</li>
+<li>xlevels: Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. <em>Importantly</em>, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables’ observed range of values (unless that’s your goal).</li>
+</ul>
+</blockquote>
 <pre class="r"><code>pred_table02 &lt;- effect(term = &quot;zexer_c:xage_c&quot;, mod = flm02, x.var = &quot;zexer_c&quot;, xlevels = list(zexer_c = pretty(endurance$zexer_c), xage_c = xage_cqs[2:4])) %&gt;%
   as_tibble %&gt;% 
   mutate(xage_c_lbl = xage_c %&gt;% factor(levels = xage_cqs[2:4], labels = c(&quot;25th Percentile&quot;, &quot;50th Percentile&quot;, &quot;75th Percentile&quot;)))
@@ -943,6 +992,9 @@ kable(pred_table02)</code></pre>
 </div>
 <div id="ggplot2-1" class="section level3">
 <h3>ggplot2</h3>
+<blockquote>
+<p>Run this code line by line. The idea is that you’re first generating a scatterplot with your raw values and then you’re “adding (+)” layers which use the predicted values your tabled above. Put another way, <code>geom_line()</code> and <code>geom_ribbon()</code> are using data from the table of predicted values; <code>geom_point()</code> is using data from your dataset. The colors here are probably overkill, but the idea is that darker red values mean those participants are older; in this way, color gives you a sense of the distribution of participant age without plotting another dimension.</p>
+</blockquote>
 <pre class="r"><code>endurance %&gt;% 
   ggplot(mapping = aes(x = zexer_c, y = yendu)) +
   geom_point(mapping = aes(color = xage_c)) +
@@ -962,16 +1014,33 @@ kable(pred_table02)</code></pre>
 </div>
 <div id="save-matrix-of-contrasts-1" class="section level2">
 <h2>Save matrix of contrasts</h2>
+<blockquote>
+<ul>
+<li>each coefficient gets a contrast weight<br />
+</li>
+<li>0 means don’t use it; cross it out.<br />
+</li>
+<li>intercept = 0, zexer_c = 1, xage_c = 0, zexer_c:xage_c = 25th percentile of age<br />
+</li>
+<li>in words, test the linear effect of zexer_c when xage_c = 25th percentile of age (younger participants)</li>
+</ul>
+</blockquote>
 <pre class="r"><code>contmat02 &lt;- rbind(xage_c25 = c(0, 1, 0, xage_cqs[2]),
                    xage_c50 = c(0, 1, 0, xage_cqs[3]),
                    xage_c75 = c(0, 1, 0, xage_cqs[4]))</code></pre>
 </div>
 <div id="save-general-linear-hypothesis-object-output-from-glht-1" class="section level2">
 <h2>Save general linear hypothesis object output from <code>glht()</code></h2>
+<blockquote>
+<p><code>glht()</code> takes your model and your contrast matrix you made above.</p>
+</blockquote>
 <pre class="r"><code>glht02 &lt;- glht(model = flm02, linfct = contmat02)</code></pre>
 </div>
 <div id="contrast-summary-1" class="section level2">
 <h2>Contrast summary</h2>
+<blockquote>
+<p>test = <code>adjusted(&quot;none&quot;)</code> means, “Don’t correct for multiple comparisons.”</p>
+</blockquote>
 <pre class="r"><code>summary(glht02, test = adjusted(&quot;none&quot;))</code></pre>
 <pre><code>## 
 ##   Simultaneous Tests for General Linear Hypotheses

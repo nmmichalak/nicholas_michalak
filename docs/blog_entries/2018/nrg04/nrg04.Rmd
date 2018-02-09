@@ -6,13 +6,16 @@ output:
 ---
 
 ## What is moderation?
-> Moderation refers to how some variable modifies the direction or the strength of the association between two variables. In other words, a moderator variable qualifies the relation between two variables. A moderator is not a part of some proposed causal process; instead, it interacts with the relation between two variables in such a way that their relation is stronger, weaker, or opposite in direction—depending on values of the moderator. For example, as room temperature increases, people may report feeling thirstier. But that may depend on how physically fit people are. Maybe physically fit people don't report feeling thirsty as room temperature increases, or maybe physically fit people—compared to less physically fit people—have a higher room temperature threshold at which they start feeling thirstier. In this example, the product of one predictor variables and the moderator—their interaction—quantifies the moderator's effect. Statistically, the product term accounts for variability in thirst or water drinking independently of either predictor variable by itself.
+> Moderation refers to how some variable modifies the direction or the strength of the association between two variables. In other words, a moderator variable qualifies the relation between two variables. A moderator is not a part of some proposed causal process; instead, it interacts with the relation between two variables in such a way that their relation is stronger, weaker, or opposite in direction—depending on values of the moderator. For example, as room temperature increases, people may report feeling thirstier. But that may depend on how physically fit people are. Maybe physically fit people don't report feeling thirsty as room temperature increases, or maybe physically fit people—compared to less physically fit people—have a higher room temperature threshold at which they start feeling thirstier. In this example, the product of one predictor variable and the moderator—their interaction—quantifies the moderator's effect. Statistically, the product term accounts for variability in thirst or water drinking independently of either predictor variable by itself.
+
+## What is a simple slope?
+> In a 2-way interaction, a simple slope represents the relation between two variables (e.g., x and y) at a specific value of a third variable (e.g., a moderator variable). In this sense, a simple slope is a conditional relationship between two variables. For example, *if* participants are physically fit, *then* as room temperature increases, thirst also increases.
 
 ## Model and Conceptual Assumptions
-> * **Correct functional form.** Your model variables share linear relationships and don't interact with eachother.
+> * **Correct functional form.** Your model variables share linear relationships.
 > * **No omitted influences.** This one is hard: Your model accounts for all relevant influences on the variables included. All models are wrong, but how wrong is yours? 
 > * **Accurate measurement.** Your measurements are valid and reliable. Note that unreliable measures can't be valid, and reliable measures don't necessairly measure just one construct or even your construct.
-> * **Well-behaved residuals.** Residuals (i.e., prediction errors) aren't correlated with predictor variables or eachother, and residuals have constant variance across values of your predictor variables. Also, residual error terms aren't correlated across regression equations. This could happen if, for example, some omitted variable causes both thirst and water drinking.
+> * **Well-behaved residuals.** Residuals (i.e., prediction errors) aren't correlated with predictor variables or eachother, and residuals have constant variance across values of your predictor variables.
 
 ## Libraries
 
@@ -124,6 +127,10 @@ confint(flm01)
 ## Plot scatterplot with slope estimates for each fitness group
 
 ### Save table of predicted values
+> * term: interaction term in your model 
+> * mod: your fitted model object 
+> * x.var: Which variable would you want to see on your x-axis? 
+> * xlevels: Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. *Importantly*, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables' observed range of values (unless that's your goal).
 
 ```{r}
 
@@ -146,6 +153,7 @@ thirst_data <- thirst_data %>%
 ```
 
 ### ggplot2
+> Run this code line by line. The idea is that you're first generating a scatterplot with your raw values and then you're "adding (+)" layers which use the predicted values your tabled above. Put another way, `geom_line()` and `geom_ribbon()` are using data from the table of predicted values; `geom_point()` is using data from your dataset.
 
 ```{r}
 
@@ -165,6 +173,10 @@ thirst_data %>%
 ## Test simple slopes
 
 ## Save matrix of contrasts
+> * each coefficient gets a contrast weight  
+> * 0 means don't use it; cross it out.  
+> * intercept = 0, room_temp_c = 1, phys_fit = 0, room_temp_c:phys_fit = -0.5  
+> * in words, test the linear effect of room_temp_c when phys_fit = -0.5 (normal participants)
 
 ```{r}
 
@@ -174,6 +186,7 @@ contmat01 <- rbind(normal = c(0, 1, 0, -0.5),
 ```
 
 ## Save general linear hypothesis object output from `glht()`
+> `glht()` takes your model and your contrast matrix you made above.
 
 ```{r}
 
@@ -182,6 +195,7 @@ glht01 <- glht(model = flm01, linfct = contmat01)
 ```
 
 ## Contrast summary
+> test = `adjusted("none")` means, "Don't correct for multiple comparisons."
 
 ```{r}
 
@@ -259,14 +273,20 @@ confint(flm02)
 ## Plot scatterplot with slope estimates for percentiles
 
 ## Save quantiles of mean-centered age
+> You'll use these for plotting and simple slopes.
 
 ```{r}
 
-xage_cqs <- quantile(endurance$xage_c)
+(xage_cqs <- quantile(endurance$xage_c))
 
 ```
 
 ### Save table of predicted values
+> * `xage_cqs[2:4]` means, "subset the 2nd, 3rd, and 4th value in xage_cqs"  
+> * term: interaction term in your model 
+> * mod: your fitted model object 
+> * x.var: Which variable would you want to see on your x-axis? 
+> * xlevels: Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. *Importantly*, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables' observed range of values (unless that's your goal).
 
 ```{r}
 
@@ -280,6 +300,7 @@ kable(pred_table02)
 ```
 
 ### ggplot2
+> Run this code line by line. The idea is that you're first generating a scatterplot with your raw values and then you're "adding (+)" layers which use the predicted values your tabled above. Put another way, `geom_line()` and `geom_ribbon()` are using data from the table of predicted values; `geom_point()` is using data from your dataset. The colors here are probably overkill, but the idea is that darker red values mean those participants are older; in this way, color gives you a sense of the distribution of participant age without plotting another dimension.
 
 ```{r}
 
@@ -299,6 +320,10 @@ endurance %>%
 ## Test simple slopes
 
 ## Save matrix of contrasts
+> * each coefficient gets a contrast weight  
+> * 0 means don't use it; cross it out.  
+> * intercept = 0, zexer_c = 1, xage_c = 0, zexer_c:xage_c = 25th percentile of age  
+> * in words, test the linear effect of zexer_c when xage_c = 25th percentile of age (younger participants)
 
 ```{r}
 
@@ -309,6 +334,7 @@ contmat02 <- rbind(xage_c25 = c(0, 1, 0, xage_cqs[2]),
 ```
 
 ## Save general linear hypothesis object output from `glht()`
+> `glht()` takes your model and your contrast matrix you made above.
 
 ```{r}
 
@@ -317,6 +343,7 @@ glht02 <- glht(model = flm02, linfct = contmat02)
 ```
 
 ## Contrast summary
+> test = `adjusted("none")` means, "Don't correct for multiple comparisons."
 
 ```{r}
 
