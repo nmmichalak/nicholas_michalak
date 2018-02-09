@@ -127,10 +127,10 @@ confint(flm01)
 ## Plot scatterplot with slope estimates for each fitness group
 
 ### Save table of predicted values
-> * term: interaction term in your model 
-> * mod: your fitted model object 
-> * x.var: Which variable would you want to see on your x-axis? 
-> * xlevels: Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. *Importantly*, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables' observed range of values (unless that's your goal).
+> * *term:* Which interaction term are you interested in?
+> * *mod:* What model are you using the make predictions?
+> * *x.var:* Which variable would you want to see on your x-axis? 
+> * *xlevels:* Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. **Importantly**, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables' observed range of values (unless that's your goal).
 
 ```{r}
 
@@ -153,7 +153,7 @@ thirst_data <- thirst_data %>%
 ```
 
 ### ggplot2
-> Run this code line by line. The idea is that you're first generating a scatterplot with your raw values and then you're "adding (+)" layers which use the predicted values your tabled above. Put another way, `geom_line()` and `geom_ribbon()` are using data from the table of predicted values; `geom_point()` is using data from your dataset.
+> Read this code line by line. The idea is that you're first generating a scatterplot with your raw values and then you're "adding (+)" layers which use the predicted values your tabled above. Put another way, `geom_line()` and `geom_ribbon()` are using data from the table of predicted values; `geom_point()` is using data from your dataset.
 
 ```{r}
 
@@ -173,10 +173,10 @@ thirst_data %>%
 ## Test simple slopes
 
 ## Save matrix of contrasts
-> * each coefficient gets a contrast weight  
+> * Each coefficient gets a contrast weight.  
 > * 0 means don't use it; cross it out.  
 > * intercept = 0, room_temp_c = 1, phys_fit = 0, room_temp_c:phys_fit = -0.5  
-> * in words, test the linear effect of room_temp_c when phys_fit = -0.5 (normal participants)
+> * In words, test the linear effect of room_temp_c when phys_fit = -0.5 (normal participants)
 
 ```{r}
 
@@ -283,10 +283,10 @@ confint(flm02)
 
 ### Save table of predicted values
 > * `xage_cqs[2:4]` means, "subset the 2nd, 3rd, and 4th value in xage_cqs"  
-> * term: interaction term in your model 
-> * mod: your fitted model object 
-> * x.var: Which variable would you want to see on your x-axis? 
-> * xlevels: Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. *Importantly*, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables' observed range of values (unless that's your goal).
+> * *term:* Which interaction term are you interested in?
+> * *mod:* What model are you using to make predictions? 
+> * *x.var:* Which variable would you want to see on your x-axis? 
+> * *xlevels:* Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. *Importantly*, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables' observed range of values (unless that's your goal).
 
 ```{r}
 
@@ -300,7 +300,7 @@ kable(pred_table02)
 ```
 
 ### ggplot2
-> Run this code line by line. The idea is that you're first generating a scatterplot with your raw values and then you're "adding (+)" layers which use the predicted values your tabled above. Put another way, `geom_line()` and `geom_ribbon()` are using data from the table of predicted values; `geom_point()` is using data from your dataset. The colors here are probably overkill, but the idea is that darker red values mean those participants are older; in this way, color gives you a sense of the distribution of participant age without plotting another dimension.
+> Read this code line by line. The idea is that you're first generating a scatterplot with your raw values and then you're "adding (+)" layers which use the predicted values your tabled above. Put another way, `geom_line()` and `geom_ribbon()` are using data from the table of predicted values; `geom_point()` is using data from your dataset. The colors here are probably overkill, but the idea is that darker red values mean those participants are older; in this way, color gives you a sense of the distribution of participant age without plotting another dimension.
 
 ```{r}
 
@@ -320,10 +320,10 @@ endurance %>%
 ## Test simple slopes
 
 ## Save matrix of contrasts
-> * each coefficient gets a contrast weight  
+> * Each coefficient gets a contrast weight.  
 > * 0 means don't use it; cross it out.  
 > * intercept = 0, zexer_c = 1, xage_c = 0, zexer_c:xage_c = 25th percentile of age  
-> * in words, test the linear effect of zexer_c when xage_c = 25th percentile of age (younger participants)
+> * In words, test the linear effect of zexer_c when xage_c = 25th percentile of age (younger participants)
 
 ```{r}
 
