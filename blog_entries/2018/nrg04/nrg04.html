@@ -346,10 +346,10 @@ thirst_fit &lt;- thirst_fit %&gt;% mutate(phys_fit = 0.5)</code></pre>
 <h3>Save table of predicted values</h3>
 <blockquote>
 <ul>
-<li>term: interaction term in your model</li>
-<li>mod: your fitted model object</li>
-<li>x.var: Which variable would you want to see on your x-axis?</li>
-<li>xlevels: Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. <em>Importantly</em>, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables’ observed range of values (unless that’s your goal).</li>
+<li><em>term:</em> Which interaction term are you interested in?</li>
+<li><em>mod:</em> What model are you using the make predictions?</li>
+<li><em>x.var:</em> Which variable would you want to see on your x-axis?</li>
+<li><em>xlevels:</em> Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. <strong>Importantly</strong>, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables’ observed range of values (unless that’s your goal).</li>
 </ul>
 </blockquote>
 <pre class="r"><code>pred_table01 &lt;- effect(term = &quot;room_temp_c:phys_fit&quot;, mod = flm01, x.var = &quot;room_temp_c&quot;, xlevels = list(phys_fit = c(-0.5, 0.5), room_temp_c = seq(-3, 3, 1))) %&gt;%
@@ -508,7 +508,7 @@ kable(pred_table01)</code></pre>
 <div id="ggplot2" class="section level3">
 <h3>ggplot2</h3>
 <blockquote>
-<p>Run this code line by line. The idea is that you’re first generating a scatterplot with your raw values and then you’re “adding (+)” layers which use the predicted values your tabled above. Put another way, <code>geom_line()</code> and <code>geom_ribbon()</code> are using data from the table of predicted values; <code>geom_point()</code> is using data from your dataset.</p>
+<p>Read this code line by line. The idea is that you’re first generating a scatterplot with your raw values and then you’re “adding (+)” layers which use the predicted values your tabled above. Put another way, <code>geom_line()</code> and <code>geom_ribbon()</code> are using data from the table of predicted values; <code>geom_point()</code> is using data from your dataset.</p>
 </blockquote>
 <pre class="r"><code>thirst_data %&gt;% 
   ggplot(mapping = aes(x = room_temp_c, y = thirst)) +
@@ -531,13 +531,13 @@ kable(pred_table01)</code></pre>
 <h2>Save matrix of contrasts</h2>
 <blockquote>
 <ul>
-<li>each coefficient gets a contrast weight<br />
+<li>Each coefficient gets a contrast weight.<br />
 </li>
 <li>0 means don’t use it; cross it out.<br />
 </li>
 <li>intercept = 0, room_temp_c = 1, phys_fit = 0, room_temp_c:phys_fit = -0.5<br />
 </li>
-<li>in words, test the linear effect of room_temp_c when phys_fit = -0.5 (normal participants)</li>
+<li>In words, test the linear effect of room_temp_c when phys_fit = -0.5 (normal participants)</li>
 </ul>
 </blockquote>
 <pre class="r"><code>contmat01 &lt;- rbind(normal = c(0, 1, 0, -0.5),
@@ -746,10 +746,10 @@ kable(pred_table01)</code></pre>
 <ul>
 <li><code>xage_cqs[2:4]</code> means, “subset the 2nd, 3rd, and 4th value in xage_cqs”<br />
 </li>
-<li>term: interaction term in your model</li>
-<li>mod: your fitted model object</li>
-<li>x.var: Which variable would you want to see on your x-axis?</li>
-<li>xlevels: Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. <em>Importantly</em>, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables’ observed range of values (unless that’s your goal).</li>
+<li><em>term:</em> Which interaction term are you interested in?</li>
+<li><em>mod:</em> What model are you using to make predictions?</li>
+<li><em>x.var:</em> Which variable would you want to see on your x-axis?</li>
+<li><em>xlevels:</em> Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. <em>Importantly</em>, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables’ observed range of values (unless that’s your goal).</li>
 </ul>
 </blockquote>
 <pre class="r"><code>pred_table02 &lt;- effect(term = &quot;zexer_c:xage_c&quot;, mod = flm02, x.var = &quot;zexer_c&quot;, xlevels = list(zexer_c = pretty(endurance$zexer_c), xage_c = xage_cqs[2:4])) %&gt;%
@@ -993,7 +993,7 @@ kable(pred_table02)</code></pre>
 <div id="ggplot2-1" class="section level3">
 <h3>ggplot2</h3>
 <blockquote>
-<p>Run this code line by line. The idea is that you’re first generating a scatterplot with your raw values and then you’re “adding (+)” layers which use the predicted values your tabled above. Put another way, <code>geom_line()</code> and <code>geom_ribbon()</code> are using data from the table of predicted values; <code>geom_point()</code> is using data from your dataset. The colors here are probably overkill, but the idea is that darker red values mean those participants are older; in this way, color gives you a sense of the distribution of participant age without plotting another dimension.</p>
+<p>Read this code line by line. The idea is that you’re first generating a scatterplot with your raw values and then you’re “adding (+)” layers which use the predicted values your tabled above. Put another way, <code>geom_line()</code> and <code>geom_ribbon()</code> are using data from the table of predicted values; <code>geom_point()</code> is using data from your dataset. The colors here are probably overkill, but the idea is that darker red values mean those participants are older; in this way, color gives you a sense of the distribution of participant age without plotting another dimension.</p>
 </blockquote>
 <pre class="r"><code>endurance %&gt;% 
   ggplot(mapping = aes(x = zexer_c, y = yendu)) +
@@ -1016,13 +1016,13 @@ kable(pred_table02)</code></pre>
 <h2>Save matrix of contrasts</h2>
 <blockquote>
 <ul>
-<li>each coefficient gets a contrast weight<br />
+<li>Each coefficient gets a contrast weight.<br />
 </li>
 <li>0 means don’t use it; cross it out.<br />
 </li>
 <li>intercept = 0, zexer_c = 1, xage_c = 0, zexer_c:xage_c = 25th percentile of age<br />
 </li>
-<li>in words, test the linear effect of zexer_c when xage_c = 25th percentile of age (younger participants)</li>
+<li>In words, test the linear effect of zexer_c when xage_c = 25th percentile of age (younger participants)</li>
 </ul>
 </blockquote>
 <pre class="r"><code>contmat02 &lt;- rbind(xage_c25 = c(0, 1, 0, xage_cqs[2]),
