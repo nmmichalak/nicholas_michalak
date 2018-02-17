@@ -1,0 +1,6 @@
+---
+title: "Coding Contrasts in R"
+output: 
+  html_document: 
+    theme: readable
+---
