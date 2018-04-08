@@ -1,6 +1,245 @@
 ---
-title: "Coding Contrasts in R"
+title: "The Compound Symmetry Assumption in Multi-Level Models"
 output: 
   html_document: 
     theme: readable
 ---
+
+# packages
+
+```{r, warning = FALSE, message = FALSE}
+
+library(tidyverse)
+library(AMCP)
+library(lme4)
+library(lmerTest)
+library(nlme)
+library(lattice)
+
+```
+
+# custom function
+
+```{r}
+
+oneway <- function(dv, group, contrast, alpha = .05) {
+  # means, standard deviations, and sample sizes
+  ms <- by(dv, group, mean)
+  vars <- by(dv, group, var)
+  ns <- by(dv, group, length)
+  
+  # contrast estimate
+  est <- contrast %*% ms
+  
+  # welch test statistic
+  se_welch <- sqrt(contrast^2 %*% (vars / ns))
+  t_welch <- est / se_welch
+  
+  # classic test statistic
+  mse <- anova(lm(dv ~ factor(group)))$"Mean Sq"[2]
+  se_classic <- sqrt(mse * (contrast^2 %*% (1 / ns)))
+  t_classic <- est / se_classic
+  
+  # if dimensions of contrast are NULL, nummer of contrasts = 1, if not, nummer of contrasts = dimensions of contrast
+  num_contrast <- ifelse(is.null(dim(contrast)), 1, dim(contrast)[1])
+  df_welch <- rep(0, num_contrast)
+  df_classic <- rep(0, num_contrast)
+  
+  # makes rows of contrasts if contrast dimensions aren't NULL
+  if(is.null(dim(contrast))) contrast <- t(as.matrix(contrast))
+  
+  # calculating degrees of freedom for welch and classic
+  for(i in 1:num_contrast) {
+    df_classic[i] <- sum(ns) - length(ns)
+    df_welch[i] <- sum(contrast[i]^2 * vars / ns)^2 / sum((contrast[i]^2 * vars / ns)^2 / (ns - 1))
+  }
+  
+  # p-values
+  p_welch <- 2 * (1 - pt(abs(t_welch), df_welch))
+  p_classic <- 2 * (1 - pt(abs(t_classic), df_classic))
+  
+  # 95% confidence intervals
+  lwr_welch <- est - se_welch * qt(p = 1 - (alpha / 2), df = df_welch)
+  upr_welch <- est + se_welch * qt(p = 1 - (alpha / 2), df = df_welch)
+  lwr_classic <- est - se_classic * qt(p = 1 - (alpha / 2), df = df_classic)
+  upr_classic <- est + se_classic * qt(p = 1 - (alpha / 2), df = df_classic)
+  
+  # output
+  data.frame(contrast = rep(rownames(contrast), times = 2),
+             equal_var = rep(c("Assumed", "Not Assumed"), each = num_contrast),
+             est = rep(est, times = 2),
+             se = c(se_classic, se_welch),
+             t = c(t_classic, t_welch),
+             df = c(df_classic, df_welch),
+             pval = c(p_classic, p_welch),
+             lwr = c(lwr_classic, lwr_welch),
+             upr = c(upr_classic, upr_welch))
+}
+
+```
+
+# data
+
+```{r}
+
+data("C14T8")
+
+```
+
+## add angle4
+
+```{r}
+
+C14T8 <- C14T8 %>%
+  mutate(subj = 1:20,
+         Angle4 = c(510, 480, 630, 660, 660, 450, 600, 660, 660, 540, 570, 720, 540, 660, 570, 780, 690, 570, 750, 690),
+         age = Group %>% recode(`1` = -0.5, `2` = 0.5)) %>% 
+  select(subj, Group, age, Angle0, Angle4, Angle8)
+
+```
+
+## restructure
+
+```{r}
+
+C14T8_lng <- C14T8 %>%
+  gather(key = angle, value = rt, Angle0, Angle4, Angle8) %>%
+  mutate(angle_num = angle %>% str_sub(start = nchar(.), end = nchar(.)) %>% parse_number(),
+         angle_lin = angle_num %>% recode(`0` = -1, `4` = 0, `8` = 1),
+         angle_quad = angle_num %>% recode(`0` = 1, `4` = -2, `8` = 1))
+
+```
+
+# fit model with `lmer()`
+
+```{r}
+
+lmer01 <- lmer(rt ~ (angle_lin + angle_quad) * age + (1 + angle_lin | subj), data = C14T8_lng, REML = TRUE)
+
+```
+
+# residuals vs. fitted
+
+```{r}
+
+plot(lmer01)
+
+```
+
+# qq-plot
+
+```{r}
+
+tibble(residuals = residuals(lmer01)) %>% 
+  ggplot(mapping = aes(sample = residuals)) +
+  geom_qq()
+
+```
+
+## random effects dotplot
+> errorbars = 2 standard deviations
+
+```{r}
+
+lmer01 %>%
+  ranef(condVar = TRUE) %>%
+  as_tibble() %>% 
+  ggplot(mapping = aes(x = condval, y = grp)) +
+  geom_point() +
+  facet_wrap(facets = ~ term, scales = "free_x") +
+  geom_errorbarh(mapping = aes(xmin = condval - 2 * condsd, xmax = condval + 2 * condsd), height = 0) +
+  geom_vline(xintercept = 0, color = "blue")
+
+```
+
+## model results
+
+```{r}
+
+summary(lmer01)
+
+```
+
+# fit model with `gls()`
+
+```{r}
+
+gls01 <- gls(rt ~ (angle_lin + angle_quad) * age, data = C14T8_lng, correlation = corSymm(form = ~ 1 | subj), weights = varIdent(form = ~ 1 | angle_lin), method = "REML")
+
+```
+
+# residuals vs. fitted
+
+```{r}
+
+plot(gls01)
+
+```
+
+# qq-plot
+
+```{r}
+
+tibble(residuals = residuals(gls01)) %>% 
+  ggplot(mapping = aes(sample = residuals)) +
+  geom_qq()
+
+```
+
+# model summary
+
+```{r}
+
+summary(gls01)
+
+```
+
+# export data
+
+```{r}
+
+C14T8_lng %>% write_csv(path = "C14T8_lng.csv")
+
+```
+
+# mixed contrasts
+
+## linear angle contrast
+
+```{r}
+
+oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(-1, 0, 1) %>% parse_number(), group = C14T8$Group, contrast = rbind(age = c(1, 1)))
+
+```
+
+## quadratic angle contrast
+
+```{r}
+
+oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, -2, 1) %>% parse_number(), group = C14T8$Group, contrast = rbind(age = c(1, 1)))
+
+```
+
+## age contrast
+
+```{r}
+
+oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, 1, 1) %>% parse_number(), group = C14T8$Group, contrast = rbind(age = c(-1, 1)))
+
+```
+
+## linear angle x age contrast
+
+```{r}
+
+oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(-1, 0, 1) %>% parse_number(), group = C14T8$Group, contrast = rbind(age = c(-1, 1)))
+
+```
+
+## quadratic angle x age contrast
+
+```{r}
+
+oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, -2, 1) %>% parse_number(), group = C14T8$Group, contrast = rbind(age = c(-1, 1)))
+
+```
