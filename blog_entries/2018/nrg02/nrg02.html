@@ -400,7 +400,7 @@ thirst_fit &lt;- thirst_fit %&gt;% mutate(phys_fit = 0.5)</code></pre>
 <blockquote>
 <p>standardized = TRUE adds standardized estimate to the model output. Also, see <code>help(&quot;standardizedsolution&quot;)</code></p>
 </blockquote>
-<pre class="r"><code>summary(fsem1, standardized = TRUE)</code></pre>
+<pre class="r"><code>summary(fsem1, standardized = TRUE, fit.measures = TRUE)</code></pre>
 <pre><code>## lavaan (0.5-23.1097) converged normally after  16 iterations
 ## 
 ##   Number of observations                           100
@@ -409,6 +409,37 @@ thirst_fit &lt;- thirst_fit %&gt;% mutate(phys_fit = 0.5)</code></pre>
 ##   Minimum Function Test Statistic                2.828
 ##   Degrees of freedom                                 2
 ##   P-value (Chi-square)                           0.243
+## 
+## Model test baseline model:
+## 
+##   Minimum Function Test Statistic               52.668
+##   Degrees of freedom                                 7
+##   P-value                                        0.000
+## 
+## User model versus baseline model:
+## 
+##   Comparative Fit Index (CFI)                    0.982
+##   Tucker-Lewis Index (TLI)                       0.937
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)               -570.363
+##   Loglikelihood unrestricted model (H1)       -568.949
+## 
+##   Number of free parameters                          7
+##   Akaike (AIC)                                1154.726
+##   Bayesian (BIC)                              1172.962
+##   Sample-size adjusted Bayesian (BIC)         1150.854
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.064
+##   90 Percent Confidence Interval          0.000  0.219
+##   P-value RMSEA &lt;= 0.05                          0.326
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.037
 ## 
 ## Parameter Estimates:
 ## 
@@ -790,7 +821,7 @@ thirst_fit &lt;- thirst_fit %&gt;% mutate(phys_fit = 0.5)</code></pre>
 <blockquote>
 <p>standardized = TRUE adds standardized estimate to the model output. Also, see <code>help(&quot;standardizedsolution&quot;)</code></p>
 </blockquote>
-<pre class="r"><code>summary(fsem2, standardized = TRUE)</code></pre>
+<pre class="r"><code>summary(fsem2, standardized = TRUE, fit.measures = TRUE)</code></pre>
 <pre><code>## lavaan (0.5-23.1097) converged normally after  15 iterations
 ## 
 ##   Number of observations                           100
@@ -799,6 +830,37 @@ thirst_fit &lt;- thirst_fit %&gt;% mutate(phys_fit = 0.5)</code></pre>
 ##   Minimum Function Test Statistic                3.132
 ##   Degrees of freedom                                 2
 ##   P-value (Chi-square)                           0.209
+## 
+## Model test baseline model:
+## 
+##   Minimum Function Test Statistic               50.217
+##   Degrees of freedom                                 7
+##   P-value                                        0.000
+## 
+## User model versus baseline model:
+## 
+##   Comparative Fit Index (CFI)                    0.974
+##   Tucker-Lewis Index (TLI)                       0.908
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)               -584.537
+##   Loglikelihood unrestricted model (H1)       -582.971
+## 
+##   Number of free parameters                          7
+##   Akaike (AIC)                                1183.074
+##   Bayesian (BIC)                              1201.310
+##   Sample-size adjusted Bayesian (BIC)         1179.202
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.075
+##   90 Percent Confidence Interval          0.000  0.226
+##   P-value RMSEA &lt;= 0.05                          0.288
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.044
 ## 
 ## Parameter Estimates:
 ## 
