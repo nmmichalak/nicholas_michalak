@@ -177,7 +177,7 @@ fsem1 <- sem(mod1, data = thirst_data, se = "bootstrap", bootstrap = 10000)
 
 ```{r}
 
-summary(fsem1, standardized = TRUE)
+summary(fsem1, standardized = TRUE, fit.measures = TRUE)
 
 ```
 
@@ -237,7 +237,7 @@ fsem2 <- sem(mod2, data = thirst_data, se = "bootstrap", bootstrap = 10000)
 
 ```{r}
 
-summary(fsem2, standardized = TRUE)
+summary(fsem2, standardized = TRUE, fit.measures = TRUE)
 
 ```
 

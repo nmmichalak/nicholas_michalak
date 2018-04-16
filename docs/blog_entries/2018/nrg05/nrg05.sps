@@ -1,6 +1,6 @@
 ﻿* read data.
 GET DATA  /TYPE=TXT
-  /FILE="/Users/nicholasmichalak/Nicholas_michalak/C14T8_lng.csv"
+  /FILE="/Users/nicholasmichalak/Nicholas_michalak/blog_entries/2018/nrg05/lC14T8.csv"
   /ENCODING='Locale'
   /DELCASE=LINE
   /DELIMITERS=","
@@ -16,26 +16,13 @@ GET DATA  /TYPE=TXT
   angle_num F1.0
   angle_lin F2.0
   angle_quad F2.0.
-CACHE.
-DATASET NAME C14T8_lng WINDOW=FRONT.
+DATASET NAME lC14T8 WINDOW=FRONT.
 
 * treat subjects as nominal.
 VARIABLE LEVEL subj (NOMINAL).
 
 * fit model with unstructured covariance and linear slopes for angle.
-MIXED rt WITH angle_lin angle_quad age
+MIXED rt WITH angle_lin angle_quad angle_num age
    /FIXED = angle_lin angle_quad age angle_lin * age angle_quad * age
    /PRINT = SOLUTION TESTCOV
-   /RANDOM = INTERCEPT angle_lin angle_quad | SUBJECT(subj) COVTYPE(UN).
-
-* fit model with unstructured covariance and linear slopes for angle.
-MIXED rt WITH angle_lin angle_quad age
-   /FIXED = angle_lin angle_quad age angle_lin * age angle_quad * age
-   /PRINT = SOLUTION TESTCOV
-   /RANDOM = INTERCEPT angle_lin | SUBJECT(subj) COVTYPE(UN).
-
-* fit model with compound symmetry covariance.
-MIXED rt WITH angle_lin angle_quad age
-   /FIXED = angle_lin angle_quad age angle_lin * age angle_quad * age
-   /PRINT = SOLUTION TESTCOV
-   /RANDOM = INTERCEPT | SUBJECT(subj) COVTYPE(UN).
+   /RANDOM = INTERCEPT angle_num | SUBJECT(subj) COVTYPE(UN).
