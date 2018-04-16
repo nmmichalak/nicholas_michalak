@@ -130,7 +130,7 @@ confint(flm01)
 > * *term:* Which interaction term are you interested in?
 > * *mod:* What model are you using the make predictions?
 > * *x.var:* Which variable would you want to see on your x-axis? 
-> * *xlevels:* Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. **Importantly**, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not make predictions outside your variables' observed range of values (unless that's your goal).
+> * *xlevels:* Give this argument a list of vectors (i.e., strings of values) whose values you want to make predictions for. If you have two conditions, you probably want to make predictions for the values that represent both conditions. If you have a moderator variable, you probably want to make predictions across a range of relevant, meaningful values of your moderator. **Importantly**, there should be people in your dataset who have scores at (or very close to) those values. In other words, be careful not to make predictions outside your variables' observed range of values (unless that's your goal).
 
 ```{r}
 

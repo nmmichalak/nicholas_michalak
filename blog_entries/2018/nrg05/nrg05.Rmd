@@ -1,5 +1,5 @@
 ---
-title: "The Compound Symmetry Assumption in Multi-Level Models"
+title: "Analyzing Data from Within-Subjects Designs: Multivariate Approach vs. Linear Mixed Models Approach"
 output: 
   html_document: 
     theme: readable
@@ -13,9 +13,10 @@ library(tidyverse)
 library(AMCP)
 library(lme4)
 library(lmerTest)
-library(nlme)
-library(lattice)
 
+clist <- list(lin = c(-1, 0, 1), quad = c(1, -2, 1))
+
+clist %>% unlist() %>% matrix(nrow = length(clist), dimnames = list(names(clist), NULL))
 ```
 
 # custom function
@@ -27,6 +28,9 @@ oneway <- function(dv, group, contrast, alpha = .05) {
   ms <- by(dv, group, mean)
   vars <- by(dv, group, var)
   ns <- by(dv, group, length)
+  
+  # convert list of contrasts to a matrix of named contrasts by row
+  contrast <- matrix(unlist(contrast), nrow = length(contrast), dimnames = list(names(contrast), NULL))
   
   # contrast estimate
   est <- contrast %*% ms
@@ -102,7 +106,7 @@ C14T8 <- C14T8 %>%
 
 ```{r}
 
-C14T8_lng <- C14T8 %>%
+lC14T8 <- C14T8 %>%
   gather(key = angle, value = rt, Angle0, Angle4, Angle8) %>%
   mutate(angle_num = angle %>% str_sub(start = nchar(.), end = nchar(.)) %>% parse_number(),
          angle_lin = angle_num %>% recode(`0` = -1, `4` = 0, `8` = 1),
@@ -110,11 +114,53 @@ C14T8_lng <- C14T8 %>%
 
 ```
 
+# mixed contrasts
+
+## linear angle contrast
+
+```{r}
+
+oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(-1, 0, 1) %>% parse_number(), group = C14T8$Group, contrast = list(age = c(-0.5, 0.5)))
+
+```
+
+## quadratic angle contrast
+
+```{r}
+
+oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, -2, 1) %>% parse_number(), group = C14T8$Group, contrast = list(age = c(-0.5, 0.5)))
+
+```
+
+## age contrast
+
+```{r}
+
+oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, 1, 1) %>% parse_number(), group = C14T8$Group, contrast = list(age = c(-0.5, 0.5)))
+
+```
+
+## linear angle x age contrast
+
+```{r}
+
+oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(-1, 0, 1) %>% parse_number(), group = C14T8$Group, contrast = list(age = c(-0.5, 0.5)))
+
+```
+
+## quadratic angle x age contrast
+
+```{r}
+
+oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, -2, 1) %>% parse_number(), group = C14T8$Group, contrast = list(age = c(-0.5, 0.5)))
+
+```
+
 # fit model with `lmer()`
 
 ```{r}
 
-lmer01 <- lmer(rt ~ (angle_lin + angle_quad) * age + (1 + angle_lin | subj), data = C14T8_lng, REML = TRUE)
+lmer01 <- lmer(rt ~ (angle_lin + angle_quad) * age + (1 + angle_num | subj), data = lC14T8, REML = TRUE)
 
 ```
 
@@ -160,86 +206,10 @@ summary(lmer01)
 
 ```
 
-# fit model with `gls()`
-
-```{r}
-
-gls01 <- gls(rt ~ (angle_lin + angle_quad) * age, data = C14T8_lng, correlation = corSymm(form = ~ 1 | subj), weights = varIdent(form = ~ 1 | angle_lin), method = "REML")
-
-```
-
-# residuals vs. fitted
-
-```{r}
-
-plot(gls01)
-
-```
-
-# qq-plot
-
-```{r}
-
-tibble(residuals = residuals(gls01)) %>% 
-  ggplot(mapping = aes(sample = residuals)) +
-  geom_qq()
-
-```
-
-# model summary
-
-```{r}
-
-summary(gls01)
-
-```
-
 # export data
 
 ```{r}
 
-C14T8_lng %>% write_csv(path = "C14T8_lng.csv")
-
-```
-
-# mixed contrasts
-
-## linear angle contrast
-
-```{r}
-
-oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(-1, 0, 1) %>% parse_number(), group = C14T8$Group, contrast = rbind(age = c(1, 1)))
-
-```
-
-## quadratic angle contrast
-
-```{r}
-
-oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, -2, 1) %>% parse_number(), group = C14T8$Group, contrast = rbind(age = c(1, 1)))
-
-```
-
-## age contrast
-
-```{r}
-
-oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, 1, 1) %>% parse_number(), group = C14T8$Group, contrast = rbind(age = c(-1, 1)))
-
-```
-
-## linear angle x age contrast
-
-```{r}
-
-oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(-1, 0, 1) %>% parse_number(), group = C14T8$Group, contrast = rbind(age = c(-1, 1)))
-
-```
-
-## quadratic angle x age contrast
-
-```{r}
-
-oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, -2, 1) %>% parse_number(), group = C14T8$Group, contrast = rbind(age = c(-1, 1)))
+lC14T8 %>% write_csv(path = "lC14T8.csv")
 
 ```

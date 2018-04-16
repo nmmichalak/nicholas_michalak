@@ -14,7 +14,7 @@ output:
 > * Testing Conditional Indirect Effects in R [[**.html**](blog_entries/2018/nrg02/nrg02.html)]
 > * R for Psychology Research: A Crash Course [[**.html**](blog_entries/2018/nrg03/nrg03.html)]
 > * Repeated Measures in R
-> * The Equal Variance Assumption in Between-Subjects Contrasts
+> * Testing Between-Subjects Contrasts in R [[**.html**](blog_entries/2018/nrg06/nrg06.html)]
 > * The Covariance Structures in Mixed Effects/Multilevel Models in R
 > * Using Principal Components or Factor Analysis in Social Psychology
 > * Probing and Plotting Interactions in R [[**.html**](blog_entries/2018/nrg04/nrg04.html)]
