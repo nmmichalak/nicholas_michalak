@@ -33,9 +33,9 @@ sum(c(control, treatment) * c(1, -1))
 # Model and Conceptual Assumptions for Repeated Measures ANOVA
 > * **All change scores variances are equal.** Similar to the homogenous group variance assumption in between-subjects ANOVA designs, within-subjects designs require that all change score variances (e.g., subject changes between time points, within-subject differences between conditions) are equal. This means that if you compute the within-subject differences between all pairiwse levels (e.g., timepoints, treatment levels), the variances of those parwises differences must all be equal. For example, if you ask people how satisifed they are with their current job every month for 3 months, then the variance of month 2 - month 1 should equal the variance of month 3 - month 2 and the variance of month 3 - month 1. As you might be thinking, this assumption is very strict and probably not realistic in many cases.
 
-# A different take on the homogenous chance score variance assumption
-> * **Sphericity and a special case, compound symmetry.** Sphericity is the matrix algebra equivalent to the homogenous chance score variance assumption. Compound symmtry is a special case of sphericity. A variance-covariance matrix that satisifies compound symmetry has equal variances (the values in the diagonal) and equal covariances (the values above or below the diagonal).  
-> **Short explanation**: Sphericity = homogenous chance score variance = compound symmetry
+# A different take on the homogenous change score variance assumption
+> * **Sphericity and a special case, compound symmetry.** Sphericity is the matrix algebra equivalent to the homogenous change score variance assumption. Compound symmtry is a special case of sphericity. A variance-covariance matrix that satisifies compound symmetry has equal variances (the values in the diagonal) and equal covariances (the values above or below the diagonal).  
+> **Short explanation**: Sphericity = homogenous change score variance = compound symmetry
 
 ## Print an example of a matrix that satisfies compound symmetry
 
