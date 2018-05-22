@@ -5,4 +5,4 @@ output:
     theme: readable
 ---
 
-> * R Programming for Research (co-taught with Iris Wang) [[**GitHub**](https://github.com/nmmichalak/R_programming_for_research)]
+> * R Programming for Research (co-taught with Iris Wang) [[**OSF**](https://osf.io/xj7cq/)]

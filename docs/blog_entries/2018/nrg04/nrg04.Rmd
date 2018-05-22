@@ -207,11 +207,11 @@ summary(glht01, test = adjusted("none"))
 > Holding all other predictors at 0, every 1&deg;F increase in room temperature was associated with a *b* = 0.55 unit increase in thirst, *t*(96) = 5.42, 95% CI[0.35, 0.75], *p* < .001. Holding all other predictors at 0, there was no sufficient evidence that physically fit participants reported different mean thirst units, *b* = 0.20, than normal participants, *t*(96) = 0.97, 95% CI[-0.20, 0.59], *p* = .334. However, the association between room temperature and thirst was different between fitness groups, *b* = 0.42, *t*(96) = 2.08, 95% CI[0.02, 0.83], *p* = .040. Among normal participants, every 1&deg;F increase in room temperature was associated with a *b* = 0.34 unit increase in thirst, *t*(96) = 2.69, *p* = .008; in contrast, among physically fit participants, every 1&deg;F increase in room temperature was associated with a *b* = 0.76 unit increase in thirst, *t*(96) = 4.78, *p* < .001.
 
 ## Data: Example 1 (continuous x continuous interaction)
-> Data come from the example in Chapter 7 from Cohen, Cohen, Aiken, & West (2003, p. 276) [[**.csv**](https://raw.githubusercontent.com/nmmichalak/nicholas_michalak/master/blog_entries/2018/nrg04/data/ccwa_tbl7.4.1.csv)]
+> Data come from the example in Chapter 7 from Cohen, Cohen, Aiken, & West (2003, p. 276) [[**.txt**](https://raw.githubusercontent.com/nmmichalak/nicholas_michalak/master/blog_entries/2018/nrg04/data/C07E01DT.txt)]
 
 ```{r, message = FALSE, warning = FALSE}
 
-endurance <- "data/ccwa_tbl7.4.1.csv" %>% read_csv(col_names = c("id", "xage", "zexer", "yendu"))
+endurance <- "data/C07E01DT.txt" %>% read_table(col_names = c("id", "xage", "zexer", "yendu"))
 
 ```
 
