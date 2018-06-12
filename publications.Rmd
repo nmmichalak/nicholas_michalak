@@ -1,20 +1,22 @@
 ---
 title: "Publications"
 output: 
-  html_document: 
+  html**document: 
     theme: readable
 ---
+
+## Publications
+> * Chan, T., **Michalak, N.M.**, Ybarra, O. (2018). When God is your only friend: Religious beliefs compensate for purpose in life in the socially disconnected. *Journal of Personality*.
+> * Raisanen, J.C., Chadwick, S.B., **Michalak, N.M.**, van Anders, S.M. (2018) Average associations between sexual desire, testosterone, and stress in women and men over time. *Archives of Sexual Behavior*. [[**.pdf**](publications/2018/Raisanen**Chadwick**Michalak**vanAnders**2018**archives**of**sexual**behavior.pdf)]
 
 ## Unpublished Manuscripts
 > * **Michalak, N.M.**, & Ackerman, J.M. (in prep). Mental representations of infected faces.
 > * **Michalak, N.M.**, & Ackerman, J.M. (in prep). Infectious disease has many faces: Are they all the same?
 > * Lewis, N. A., Jr., & **Michalak, N. M.** (2nd revise & resubmit). Has stereotype threat dissipated over time? A cross-temporal meta-analysis. *Comprehensive Results in Social Psychology.*
 > * Vohs, K.D., Lasaleta, J.D., **Michalak, N.M.**, & Chaplin, L.N. (under review). With friends like these, who needs money? Feeling socially supported weakens the desire for money. *Journal of the Association for Consumer Research*.
-> * Chan, T., **Michalak, N.M.**, Ybarra, O. (accepted). When God is your only friend: Religious beliefs compensate for purpose in life in the socially disconnected. *Journal of Personality*.
-> * Raisanen, J.C., Chadwick, S.B., **Michalak, N.M.**, van Anders, S.M. (accepted) Average associations between sexual desire, testosterone, and stress in women and men over time. *Archives of Sexual Behavior*.
 
 ## Contributions to Edited Collections
 
 ### 2018
 > * Wang, I.W., **Michalak, N.M.**, & Ackerman, J.M. (in press). Threat of Infectious Disease. In Zeigler-Hill, V. & Shackelford, T.K. (Eds.), *The SAGE Handbook of Personality and Individual Differences*. Thousand Oaks, CA: SAGE Publications. [[**Book Website**](https://us.sagepub.com/en-us/nam/the-sage-handbook-of-personality-and-individual-differences/book249310)]
-> * Wang, I.W., **Michalak, N.M.**, & Ackerman, J.M. (in press). Life history strategies. In Shackelford, T.K. & Weekes-Shackelford, V. (Eds.), *Encyclopedia of Evolutionary Psychological Science*. New York City, NY: Springer. [[**Book Website**](https://link.springer.com/referenceworkentry/10.1007/978-3-319-16999-6_1926-1)]
+> * Wang, I.W., **Michalak, N.M.**, & Ackerman, J.M. (in press). Life history strategies. In Shackelford, T.K. & Weekes-Shackelford, V. (Eds.), *Encyclopedia of Evolutionary Psychological Science*. New York City, NY: Springer. [[**Book Website**](https://link.springer.com/referenceworkentry/10.1007/978-3-319-16999-6**1926-1)]
