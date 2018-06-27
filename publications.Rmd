@@ -8,7 +8,7 @@ output:
 ## Publications
 
 ### 2018
-> * Chan, T., **Michalak, N.M.**, Ybarra, O. (2018). When God is your only friend: Religious beliefs compensate for purpose in life in the socially disconnected. *Journal of Personality*.
+> * Chan, T., **Michalak, N.M.**, Ybarra, O. (2018). When God is your only friend: Religious beliefs compensate for purpose in life in the socially disconnected. *Journal of Personality*. [[**preprint**](https://psyarxiv.com/zv4kw/)] [[**materials, data, analyses**](https://osf.io/h6wuv/)]
 > * Raisanen, J.C., Chadwick, S.B., **Michalak, N.M.**, van Anders, S.M. (2018) Average associations between sexual desire, testosterone, and stress in women and men over time. *Archives of Sexual Behavior*. [[**.pdf**](https://github.com/nmmichalak/nicholas_michalak/raw/master/publications/2018/Raisanen_Chadwick_Michalak_vanAnders_2018_archives_of_sexual_behavior.pdf)]
 
 ## Unpublished Manuscripts
@@ -16,10 +16,12 @@ output:
 > * **Michalak, N.M.**, & Ackerman, J.M. (in prep). Infectious disease has many faces: Are they all the same?
 > * Lewis, N. A., Jr., & **Michalak, N. M.** (2nd revise & resubmit). Has stereotype threat dissipated over time? A cross-temporal meta-analysis. *Comprehensive Results in Social Psychology.*
 > * Vohs, K.D., Lasaleta, J.D., **Michalak, N.M.**, & Chaplin, L.N. (under review). With friends like these, who needs money? Feeling socially supported weakens the desire for money. *Journal of the Association for Consumer Research*.
-> * Jones, B. C., DeBruine, L., Flake, J. K., Aczel, B., Adamkovic, M., Alaei, R., ... & Babinčák, P. (2018). Social perception of faces around the world: How well does the valence-dominance model generalize across world regions? (Registered Report Stage 1). [**.html**](https://psyarxiv.com/n26dy)
+> * Jones, B. C., DeBruine, L., Flake, J. K., Aczel, B., Adamkovic, M., Alaei, R., ... & Babinčák, P. (2018). Social perception of faces around the world: How well does the valence-dominance model generalize across world regions? (Registered Report Stage 1). [[**.html**](https://psyarxiv.com/n26dy)]
 
 ## Contributions to Edited Collections
 
 ### 2018
-> * Wang, I.W., **Michalak, N.M.**, & Ackerman, J.M. (in press). Threat of Infectious Disease. In Zeigler-Hill, V. & Shackelford, T.K. (Eds.), *The SAGE Handbook of Personality and Individual Differences*. Thousand Oaks, CA: SAGE Publications. [[**Book Website**](https://us.sagepub.com/en-us/nam/the-sage-handbook-of-personality-and-individual-differences/book249310)]
-> * Wang, I.W., **Michalak, N.M.**, & Ackerman, J.M. (in press). Life history strategies. In Shackelford, T.K. & Weekes-Shackelford, V. (Eds.), *Encyclopedia of Evolutionary Psychological Science*. New York City, NY: Springer. [[**Book Website**](https://link.springer.com/referenceworkentry/10.1007/978-3-319-16999-6**1926-1)]
+> * Wang, I.W., **Michalak, N.M.**, & Ackerman, J.M. (2018). Threat of Infectious Disease. In Zeigler-Hill, V. & Shackelford, T.K. (Eds.), *The SAGE Handbook of Personality and Individual Differences*. Thousand Oaks, CA: SAGE Publications. [[**book website**](https://us.sagepub.com/en-us/nam/the-sage-handbook-of-personality-and-individual-differences/book249310)] [[**.pdf**](https://github.com/nmmichalak/nicholas_michalak/raw/master/publications/2018/Wang_Michalak_Ackerman_2018_SAGE_handbook_PID.pdf)]
+
+### 2016
+> * Wang, I.W., **Michalak, N.M.**, & Ackerman, J.M. (2016). Life history strategies. In Shackelford, T.K. & Weekes-Shackelford, V. (Eds.), *Encyclopedia of Evolutionary Psychological Science*. New York City, NY: Springer. [[**.html**](https://doi.org/10.1007/978-3-319-16999-6_1926-1)] [[**.pdf**](https://github.com/nmmichalak/nicholas_michalak/raw/master/publications/2016/Wang_Michalak_Ackerman_2016_Encyclopedia_Evolutionary_Psychological Science.pdf)]
