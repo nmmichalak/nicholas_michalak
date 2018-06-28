@@ -18,4 +18,4 @@ output:
 > * The Covariance Structures in Mixed Effects/Multilevel Models in R
 > * Using Principal Components or Factor Analysis in Social Psychology
 > * Probing and Plotting Interactions in R [[**.html**](blog_entries/2018/nrg04/nrg04.html)]
-> * Plotting Adjusted Associations in R[[**.html**](blog_entries/2018/nrg08/nrg08.html)]
+> * Plotting Adjusted Associations in R [[**.html**](blog_entries/2018/nrg08/nrg08.html)]
