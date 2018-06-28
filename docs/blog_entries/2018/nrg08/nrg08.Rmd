@@ -149,12 +149,12 @@ anova(scimath1, scimath2)
 ```
 
 ## save both model predictions in tables
-> below, I use the `effect()` function to estimate standardized science scores at unique range of values of standardized math scores (partialling out the linear effect of standardized reading scores in scimath2). then I transform the result into a `tibble` `data.frame`, which includes fitted values, predictor values, standard errors of the predictions, and upper and lower confidence values for the predictions. I can use this table to create a regression line and confidence bands in a plot.
+> Below, I use the `effect()` function to estimate standardized science scores at  range of unique values of standardized math scores (partialling out the linear effect of standardized reading scores in scimath2, the full model). Then I transform the result into a `tibble` `data.frame`, which includes fitted values, predictor values, standard errors of the predictions, and upper and lower confidence limits for the predictions. I can use this table to create a regression line and confidence bands in a plot.
 
 ```{r}
 
-scimath_predtable1 <- effect(term = "math_c", mod = scimath1) %>% as_tibble()
-scimath_predtable2 <- effect(term = "math_c", mod = scimath2) %>% as_tibble()
+(scimath_predtable1 <- effect(term = "math_c", mod = scimath1) %>% as_tibble())
+(scimath_predtable2 <- effect(term = "math_c", mod = scimath2) %>% as_tibble())
 
 ```
 
