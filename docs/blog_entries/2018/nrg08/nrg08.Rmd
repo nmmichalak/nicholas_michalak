@@ -70,7 +70,7 @@ HSB %>% sample_n(size = 15) %>% kable()
 # Do students who score higher on a standardized math test tend to score higher on a standardized science test?
 
 ## scatterplot
-> alpha below refers to the points' transparency (0.5 = 50%), lm refers to linear modelm and se refers to standard error bands
+> `alpha` below refers to the points' transparency (0.5 = 50%), `lm` refers to linear model and `se` refers to standard error bands
 
 ```{r}
 
@@ -149,6 +149,7 @@ anova(scimath1, scimath2)
 ```
 
 ## save both model predictions in tables
+> below, I use the `effect()` function to estimate standardized science scores at unique range of values of standardized math scores (partialling out the linear effect of standardized reading scores in scimath2). then I transform the result into a `tibble` `data.frame`, which includes fitted values, predictor values, standard errors of the predictions, and upper and lower confidence values for the predictions. I can use this table to create a regression line and confidence bands in a plot.
 
 ```{r}
 
