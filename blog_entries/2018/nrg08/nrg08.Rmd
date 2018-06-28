@@ -1,31 +1,31 @@
----
+----
 title: "Plotting Adjusted Associations in R"
 output: 
   html_document: 
     theme: readable
----
+----
 
 # What is a correlation?
 > A correlation quantifies the linear association between two variables. From one perspective, a correlation has two parts: one part quantifies the association, and the other part sets the scale of that association.  
 
-> The first part--the covariance, also the correlation numerator--equates to a sort of "average sum of squares" of two variables:  
+> The first part---the covariance, also the correlation numerator---equates to a sort of "average sum of squares" of two variables:  
 
 ## $cov_{(X, Y)} = \frac{\sum(X - \bar X)(Y - \bar Y)}{N - 1}$  
 
-> It could be easier to interpret the covariance as an "average of the X-Y matches": X scores above the X mean multipled by Y scores below the Y mean will be negative, and X scores above the X mean multipled by Y scores above the Y mean will be positive.  
+> It could be easier to interpret the covariance as an "average of the X-Y matches": X scores above the X mean multipled by Y scores below the Y mean will be negative, and X scores above the X mean multipled by Y scores above the Y mean will be positive. More "mismatches" leads to a negative covariance and more "matches" leads to a positive covariance.
 
-> The second part--the product of the standard deviations, also the correlation denominator--restricts the association to values from -1.00 to 1.00.
+> The second part---the product of the standard deviations, also the correlation denominator---restricts the association to values from -1.00 to 1.00.
 
 ## $\sqrt{var_X  var_Y} = \sqrt{\frac{\sum(X - \bar X)^2}{N - 1} \frac{\sum(Y - \bar Y)^2}{N - 1}}$  
 
-> Divide the numerator by the denominator and you get a sort of "ratio of the sum of squares", the correlation:
+> Divide the numerator by the denominator and you get a sort of "ratio of the sum of squares", the Pearson correlation coefficient:
 
 ## $r_{XY} = \frac{\frac{\sum(X - \bar X)(Y - \bar Y)}{N - 1}}{\sqrt{\frac{\sum(X - \bar X)^2}{N - 1} \frac{\sum(Y - \bar Y)^2}{N - 1}}} = \frac{cov_{(X, Y)}}{\sqrt{var_X  var_Y}}$  
 
 > Square this "standardized covariance" for an estimate of the proportion of variance of Y that can be accounted for by a linear function of X, $r^2_{XY}$.
 
 # What does it mean to "adjust" a correlation?
-> An adjusted correlation refers to the (square root of the) change in a regression model's $r^2$ after adding a single predictor to the model: $r^2_{full} - r^2_{reduced}$. This change quantifies that additional predictor's "unique" contribution to observed variance explained. Put another way, this value quantifies observed variance in Y explained by a linear function in X after removing variance shared between X and the other predictors in the model.
+> An adjusted correlation refers to the (square root of the) change in a regression model's $r^2$ after adding a single predictor to the model: $r^2_{full} - r^2_{reduced}$. This change quantifies that additional predictor's "unique" contribution to observed variance explained. Put another way, this value quantifies observed variance in Y explained by a linear function of X after removing variance shared between X and the other predictors in the model.
 
 # Model and Conceptual Assumptions for Linear Regression
 > * **Correct functional form.** Your model variables share linear relationships.  
@@ -82,7 +82,7 @@ HSB %>%
 ```
 
 ## center the standardized math scores
-> If the standardized math scores are centered around their mean (i.e., 0 = mean), then we can interpret the regression intercept--x = 0 when the regression line crosses the y-axis--as the grand mean standardized science score.
+> If the standardized math scores are centered around their mean (i.e., 0 = mean), then we can interpret the regression intercept---x = 0 when the regression line crosses the y-axis---as the grand mean standardized science score.
 
 ```{r}
 
@@ -112,10 +112,10 @@ HSB %>% pull(sci) %>% describe()
 ## Interpretation
 > On average, students scored 51.76 points (*SD* = 9.71 points) on the standardized science test. However, for every one more point students scored on the standardized math test, they scored 0.67 more points (*SE* = 0.03) on the standardized science test, *t*(598) = 20.89, *p* < .001.
 
-# If we account for the fact that students who score higher on a standardized math test also tend to score higher on standardized reading test, do students who score higher on the standardized math test **still** tend to score higher on the standardized science test?
+# If we account for the fact that students who score higher on a standardized math test also tend to score higher on a standardized reading test, do students who score higher on the standardized math test **still** tend to score higher on the standardized science test?
 
 ## center the standardized reading scores
-> same explanation as above--because the regression line crosses the y-axis when the predictors' axses = 0, transforming those predictors so that 0 reflects their means allows us to interpret the regression intercept as the grand mean standardized science score.
+> Same explanation as above: Because the regression line crosses the y-axis when the predictors' axes = 0, transforming those predictors so that 0 reflects their means allows us to interpret the regression intercept as the grand mean standardized science score.
 
 ```{r}
 
@@ -139,17 +139,20 @@ summary(scimath2)
 
 ```
 
-## compare models
+## compute $r^2$ change and compare models
 
 ```{r}
 
+# adjusted R-squared is an unbiased estimate of R-squared
 summary(scimath2)$adj.r.squared - summary(scimath1)$adj.r.squared
+
+# compare models
 anova(scimath1, scimath2)
 
 ```
 
 ## save both model predictions in tables
-> Below, I use the `effect()` function to estimate standardized science scores at  range of unique values of standardized math scores (partialling out the linear effect of standardized reading scores in scimath2, the full model). Then I transform the result into a `tibble` `data.frame`, which includes fitted values, predictor values, standard errors of the predictions, and upper and lower confidence limits for the predictions. I can use this table to create a regression line and confidence bands in a plot.
+> Below, I use the `effect()` function to estimate predicted standardized science scores across a range of unique values of standardized math scores; for scimath2, the full model, the predicted scores have been purged of the linear effect of standardized reading scores. I transform the result from `effect()` into a `tibble` `data.frame`, which includes predicted values (fitted values), predictor values, standard errors of the predictions, and upper and lower confidence limits for the predictions. I can use this table to create a regression line and confidence bands in a plot.
 
 ```{r}
 
@@ -159,6 +162,7 @@ anova(scimath1, scimath2)
 ```
 
 ## plot adjusted relationship
+> Below, I create the lines and the confidence "ribbons" from the tables I created above. The points come from the original `data.frame` though.
 
 ```{r}
 
@@ -173,7 +177,7 @@ HSB %>%
 ```
 
 ## Interpretation
-> After partialling out variance shared between standardized math and reading scores, for every one more point students scored on the standardized math test, they scored 0.35 more points (*SE* = 0.04) on the standardized science test, *t*(597) = 12.21, *p* < .001. Importantly, the model explained 53.60% of the observed variance in standardized science scores, an 11.50% improvement over the model (due to reading scores) that included only standardized math scores.
+> After partialling out variance shared between standardized math and reading scores, for every one more point students scored on the standardized math test, they scored 0.35 more points (*SE* = 0.04) on the standardized science test, *t*(597) = 12.21, *p* < .001. Importantly, the model that includes standardized reading scores explained 53.60% of the observed variance in standardized science scores, an 11.50% improvement over the model that included only standardized math scores.
 
 # Resources
 > * Cohen, J., Cohen, P., West, S. G., & Aiken, L. S. (2003). *Applied multiple regression/correlation analysis for the behavioral sciences*. New York, NY: Routledge.
