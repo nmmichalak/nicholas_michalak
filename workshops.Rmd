@@ -5,5 +5,5 @@ output:
     theme: readable
 ---
 
-> * A gentle crash course in R using tidyverse (co-taught with Loek Brinkman) [[**OSF**](https://osf.io/xj7cq/)]
-> * R Programming for Research (co-taught with Iris M. Wang) [[**OSF**](https://osf.io/xj7cq/)]
+> * A gentle crash course in R using tidyverse (co-taught with Loek Brinkman) [[**OSF project**](https://osf.io/69gub)]
+> * R Programming for Research (co-taught with Iris M. Wang) [[**OSF project**](https://osf.io/xj7cq/)]

@@ -1,9 +1,9 @@
-----
+---
 title: "Plotting Adjusted Associations in R"
 output: 
   html_document: 
     theme: readable
-----
+---
 
 # What is a correlation?
 > A correlation quantifies the linear association between two variables. From one perspective, a correlation has two parts: one part quantifies the association, and the other part sets the scale of that association.  
