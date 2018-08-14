@@ -6,6 +6,7 @@ output:
 ---
 
 ## 2018
+> * **Michalak, N.M.** (2018). Good tests replicate. Presentation given at the American Psychological Association Convention, San Fransisco, CA. [[**Slides**](https://osf.io/rdbmh/)]
 > * **Michalak, N.M.**, & Ackerman, J.M. (2018). Infectious disease has many faces: Are they all the same? Presentation given at the Human Behavior and Evolution Society Conference, Amsterdam. New data presented. [[**Slides**](https://osf.io/2d96k/)]
 > * **Michalak, N.M.**, & Ackerman, J.M. (2018). Infectious disease has many faces: Are they all the same? Poster presented at the Nonverbal Preconference at the Society for Personality and Social Psychology Convention, Atlanta, GA. [[**Poster**](https://github.com/nmmichalak/nicholas_michalak/raw/master/presentations/2018/2018SPSP_michalak_nonvernal_preconference.pptx)]
 > * **Michalak, N.M.**. Disease cues in the face. Presentation given at the Social Psychology Area Recruitment Weekend Data Blitz at the University of Michigan, Ann Arbor, MI. [[**Slides**](https://github.com/nmmichalak/nicholas_michalak/raw/master/presentations/2018/2018W_psychology_recruitment_social_area_datablitz.pptx)]

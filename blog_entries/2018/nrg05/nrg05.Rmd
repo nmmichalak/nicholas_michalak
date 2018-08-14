@@ -9,14 +9,19 @@ output:
 
 ```{r, warning = FALSE, message = FALSE}
 
+# install.packages("tidyverse")
+# install.packages("knitr")
+# install.packages("lattice")
+# install.packages("AMCP")
+# install.packages("lme4")
+# install.packages("lmerTest")
+
 library(tidyverse)
+library(knitr)
+library(lattice)
 library(AMCP)
 library(lme4)
 library(lmerTest)
-
-clist <- list(lin = c(-1, 0, 1), quad = c(1, -2, 1))
-
-clist %>% unlist() %>% matrix(nrow = length(clist), dimnames = list(names(clist), NULL))
 
 ```
 
@@ -36,7 +41,7 @@ oneway <- function(dv, group, contrast, alpha = .05) {
   # estimate (est), standard error (se), t-statistic (z), degrees of freedom (df), two-tailed p-value (p), and lower (lwr) and upper (upr) confidence limits at requested 1 - alpha confidence level
   # first line reports test statistics that assume variances are equal
   # second line reports test statistics that do not assume variances are equal
-
+  
   # means, standard deviations, and sample sizes
   ms <- by(dv, group, mean, na.rm = TRUE)
   vars <- by(dv, group, var, na.rm = TRUE)
@@ -95,7 +100,143 @@ oneway <- function(dv, group, contrast, alpha = .05) {
 
 ```
 
+# simple demonstration first: paired t-test >> linear mixed effects model
+
 # data
+
+```{r}
+
+# The group variable name may be misleading about the data: They represent measurements on 10 persons, not in groups.
+kable(sleep)
+
+```
+
+## testing within-subjects effects using difefrent approaches
+
+### using paired = TRUE
+
+```{r}
+
+t.test(extra ~ group, data = sleep, paired = TRUE)
+
+```
+
+### computing a difference score and testing difference score mean = 0
+
+```{r}
+
+# using dotproduct
+t.test(with(sleep, cbind(extra[group == 1], extra[group == 2]) %*% c(-1, 1)))
+
+# subtracting group 1 from group 2
+t.test(with(sleep, extra[group == 1] * -1 + extra[group == 2] * 1))
+
+```
+
+### fitting linear mixed effects model
+
+```{r}
+
+# create new contrast code called drug, which represents the drug effect on sleep increase
+sleep$drug <- with(sleep, ifelse(group == 1, -0.5, 0.5))
+
+summary(lmer(extra ~ drug + (1 | ID), data = sleep, REML = TRUE))
+
+```
+
+# more complex situation with a between-subjects factor
+
+## data
+
+```{r}
+
+# set random seed
+set.seed(8888)
+
+# id
+id <- 1:50
+
+# two treatment conditions, each size = 25
+treatment <- rep(1:2, each = 25)
+
+# labels in a separate column
+treatment_lbl <- ifelse(treatment == 1, "control", "treatment")
+
+# draws random numbers from true populations, depending on treatment value
+response1 <- rnorm(n = rep(25, 2)[treatment], mean = c(4, 5)[treatment], sd = c(1, 1)[treatment])
+
+# response 2 should be correlated r = 0.5 with response 1, but the mean should be slightly higher
+response2 <- response1 * 0.5 + rnorm(n = 50, mean = c(1, 2)[treatment], sd = 1)
+
+# save and print data
+mydata <- tibble(id, treatment_lbl, treatment, response1, response2)
+kable(mydata)
+
+# restructure
+lmydata <- gather(mydata, key = sequence_lbl, value = response, response1:response2) %>% 
+  mutate(sequence = ifelse(sequence_lbl == "response1", -0.5, 0.5),
+         treatment = ifelse(treatment == 1, -0.5, 0.5))
+
+```
+
+## treatment effect (between-subjects)
+
+```{r}
+
+# create new columns that averages the responses
+mydata$response_avg <- with(mydata, (response1 + response2) / 2)
+
+# using t-test
+t.test(response_avg ~ treatment_lbl, data = mydata)
+
+# using oneway function
+oneway(dv = mydata$response_avg, group = mydata$treatment_lbl, contrast = list(treatment_lbl = c(-1, 1)), alpha = 0.05)
+
+# using oneway function and dotproduct
+oneway(dv = parse_number(as.matrix(mydata[, c("response1", "response2")]) %*% c(1, 1) / 2), group = mydata$treatment_lbl, contrast = list(treatment_lbl = c(-1, 1)), alpha = 0.05)
+
+```
+
+## sequence effect
+
+```{r}
+
+# create new columns that reflects difference between two response
+mydata$response_diff <- with(mydata, -response1 + response2)
+
+# using t-test on difference score, compare to mean = 0
+with(mydata, t.test(response_diff))
+
+# using paired t-test
+t.test(response ~ sequence_lbl, data = lmydata, paired = TRUE)
+
+# using oneway function
+oneway(dv = mydata$response_diff, group = mydata$treatment_lbl, contrast = list(treatment_lbl = c(1, 1) / 2), alpha = 0.05)
+
+# using oneway function and dotproduct
+oneway(dv = parse_number(as.matrix(mydata[, c("response1", "response2")]) %*% c(-1, 1)), group = mydata$treatment_lbl, contrast = list(treatment_lbl = c(1, 1) / 2), alpha = 0.05)
+
+```
+
+## treatment x sequence effect
+
+```{r}
+
+# using independent samples welch t-test
+t.test(response_diff ~ treatment_lbl, data = mydata)
+
+# using oneway function
+oneway(dv = mydata$response_diff, group = mydata$treatment_lbl, contrast = list(treatment_lbl = c(-1, 1)), alpha = 0.05)
+
+# using oneway function and dotproduct
+oneway(dv = parse_number(as.matrix(mydata[, c("response1", "response2")]) %*% c(-1, 1)), group = mydata$treatment_lbl, contrast = list(treatment_lbl = c(-1, 1)), alpha = 0.05)
+
+```
+
+# from Maxwell, Dalaney, and Kelley textbook
+
+## data
+> "For the hypothetical data contained in Table 14.8, a perceptual psychologist is interested in age differences ("young" and "old") in reaction time on a perceptual task. In addition, the psychologist is also interested in the effect of angle (zero degrees off center and eight degrees off center). The question of interest is to see if there are is a main effect of age, a main effect of angle, and an interaction between the two. Table 14.8 presents the same data that we analyzed in chapter 12 for 10 young participants and 10 old participants, except that for the moment we are only analyzing data from the 0 degree and 8 degree conditions of the angle factor."
 
 ```{r}
 
@@ -103,115 +244,112 @@ data("C14T8")
 
 ```
 
-## add angle4
+### add angle4
 
 ```{r}
 
+# there is a slight difference between the textbook data and the data available in the package -- I fix that here
 C14T8 <- C14T8 %>%
   mutate(subj = 1:20,
          Angle4 = c(510, 480, 630, 660, 660, 450, 600, 660, 660, 540, 570, 720, 540, 660, 570, 780, 690, 570, 750, 690),
-         age = Group %>% recode(`1` = -0.5, `2` = 0.5)) %>% 
-  select(subj, Group, age, Angle0, Angle4, Angle8)
+         age = recode(Group, `1` = -0.5, `2` = 0.5),
+         age_lbl = recode(Group, `1` = "young", `2` = "old")) %>% 
+  select(subj, Group, age, age_lbl, Angle0, Angle4, Angle8)
+
+# print
+kable(C14T8)
 
 ```
 
-## restructure
+### restructure
 
 ```{r}
 
 lC14T8 <- C14T8 %>%
   gather(key = angle, value = rt, Angle0, Angle4, Angle8) %>%
-  mutate(angle_num = angle %>% str_sub(start = nchar(.), end = nchar(.)) %>% parse_number(),
-         angle_lin = angle_num %>% recode(`0` = -1, `4` = 0, `8` = 1),
-         angle_quad = angle_num %>% recode(`0` = 1, `4` = -2, `8` = 1))
+  mutate(angle_num = str_sub(angle, start = nchar(angle), end = nchar(angle)) %>% parse_number(),
+         angle_lbl = recode(angle_num, `0` = "0 degrees", `4` = "4 degrees", `8` = "8 degrees"),
+         angle_linear = recode(angle_num, `0` = -0.5, `4` = 0, `8` = 0.5),
+         angle_quadratic = recode(angle_num, `0` = 0.5, `4` = -1, `8` = 0.5))
 
 ```
 
-# mixed contrasts
+## between-subjects contrast
 
-## linear angle contrast
+### age contrast
 
 ```{r}
 
-oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(-1, 0, 1) %>% parse_number(), group = C14T8$Group, contrast = list(age = c(-0.5, 0.5)))
+# c(1, 2, 3) %*% c(-1, 0, 1) means tke the dot product of the matrix c(1, 2, 3) and the matrix c(-1, 0, 1)
+# this means multiply 1 by -1, 2 by 0, and 3 by 1, and add up those products
+oneway(dv = parse_number(as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% (c(1, 1, 1) / 3)), group = C14T8$Group, contrast = list(age = c(-1, 1)))
 
 ```
 
-## quadratic angle contrast
+## within-subjects contrasts
+
+#### linear angle contrast
 
 ```{r}
 
-oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, -2, 1) %>% parse_number(), group = C14T8$Group, contrast = list(age = c(-0.5, 0.5)))
+# c(1, 2, 3) %*% c(-1, 0, 1) means tke the dot product of the matrix c(1, 2, 3) and the matrix c(-1, 0, 1)
+# this means multiply 1 by -1, 2 by 0, and 3 by 1, and add up those products
+oneway(dv = parse_number(as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(-1, 0, 1)), group = C14T8$Group, contrast = list(age = c(1, 1) / 2))
 
 ```
 
-## age contrast
+### quadratic angle contrast
 
 ```{r}
 
-oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, 1, 1) %>% parse_number(), group = C14T8$Group, contrast = list(age = c(-0.5, 0.5)))
+# c(1, 2, 3) %*% c(-1, 0, 1) means tke the dot product of the matrix c(1, 2, 3) and the matrix c(-1, 0, 1)
+# this means multiply 1 by -1, 2 by 0, and 3 by 1, and add up those products
+oneway(dv = parse_number(as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, -2, 1) / 3), group = C14T8$Group, contrast = list(age = c(1, 1) / 2))
 
 ```
 
-## linear angle x age contrast
+## mixed contrasts
+
+### linear angle x age contrast
 
 ```{r}
 
-oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(-1, 0, 1) %>% parse_number(), group = C14T8$Group, contrast = list(age = c(-0.5, 0.5)))
+# c(1, 2, 3) %*% c(-1, 0, 1) means tke the dot product of the matrix c(1, 2, 3) and the matrix c(-1, 0, 1)
+# this means multiply 1 by -1, 2 by 0, and 3 by 1, and add up those products
+oneway(dv = parse_number(as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(-1, 0, 1)), group = C14T8$Group, contrast = list(age = c(-1, 1)))
 
 ```
 
-## quadratic angle x age contrast
+### quadratic angle x age contrast
 
 ```{r}
 
-oneway(dv = as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, -2, 1) %>% parse_number(), group = C14T8$Group, contrast = list(age = c(-0.5, 0.5)))
+# c(1, 2, 3) %*% c(-1, 0, 1) means tke the dot product of the matrix c(1, 2, 3) and the matrix c(-1, 0, 1)
+# this means multiply 1 by -1, 2 by 0, and 3 by 1, and add up those products
+oneway(dv = parse_number(as.matrix(C14T8[, c("Angle0", "Angle4", "Angle8")]) %*% c(1, -2, 1) / 3), group = C14T8$Group, contrast = list(age = c(-1, 1)))
 
 ```
 
-# fit model with `lmer()`
+## fit model with `lmer()`
 
 ```{r}
 
-lmer01 <- lmer(rt ~ (angle_lin + angle_quad) * age + (1 + angle_lin + angle_quad | subj), data = lC14T8, REML = TRUE, control = lmerControl(check.nobs.vs.nRE = "ignore", check.nobs.vs.nlev = "ignore"))
+lmer01 <- lmer(rt ~ (angle_linear + angle_quadratic) * age + (1 + angle_linear + angle_quadratic | subj), data = lC14T8, REML = TRUE, control = lmerControl(check.nobs.vs.nRE = "ignore", check.nobs.vs.nlev = "ignore"))
 
 ```
 
-# residuals vs. fitted
+### diagnostics
 
 ```{r}
 
 plot(lmer01)
+qqmath(ranef(lmer01, condVar = TRUE))
+qqmath(lmer01)
+dotplot(ranef(lmer01, condVar = TRUE))
 
 ```
 
-# qq-plot
-
-```{r}
-
-tibble(residuals = residuals(lmer01)) %>% 
-  ggplot(mapping = aes(sample = residuals)) +
-  geom_qq()
-
-```
-
-## random effects dotplot
-> errorbars = 2 standard deviations
-
-```{r}
-
-lmer01 %>%
-  ranef(condVar = TRUE) %>%
-  as_tibble() %>% 
-  ggplot(mapping = aes(x = condval, y = grp)) +
-  geom_point() +
-  facet_wrap(facets = ~ term, scales = "free_x") +
-  geom_errorbarh(mapping = aes(xmin = condval - 2 * condsd, xmax = condval + 2 * condsd), height = 0) +
-  geom_vline(xintercept = 0, color = "blue")
-
-```
-
-## model results
+### model results
 
 ```{r}
 
@@ -223,6 +361,6 @@ summary(lmer01)
 
 ```{r}
 
-lC14T8 %>% write_csv(path = "lC14T8.csv")
+write_csv(lC14T8, path = "lC14T8.csv")
 
 ```
