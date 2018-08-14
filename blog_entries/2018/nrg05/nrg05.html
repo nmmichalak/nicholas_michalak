@@ -920,6 +920,49 @@ oneway(dv = parse_number(as.matrix(mydata[, c(&quot;response1&quot;, &quot;respo
 ## 1 0.02084609 0.1345154 1.562140
 ## 2 0.02084812 0.1345063 1.562149</code></pre>
 </div>
+<div id="linear-mixed-effect-model" class="section level2">
+<h2>linear mixed effect model</h2>
+<pre class="r"><code>summary(lmer(response ~ treatment * sequence + (1 + sequence | id), data = lmydata, REML = TRUE, control = lmerControl(check.nobs.vs.nlev = &quot;ignore&quot;, check.nobs.vs.nRE = &quot;ignore&quot;)))</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model is nearly unidentifiable: large eigenvalue ratio
+##  - Rescale variables?</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: response ~ treatment * sequence + (1 + sequence | id)
+##    Data: lmydata
+## Control: 
+## lmerControl(check.nobs.vs.nlev = &quot;ignore&quot;, check.nobs.vs.nRE = &quot;ignore&quot;)
+## 
+## REML criterion at convergence: 290.1
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -1.7412 -0.4661 -0.0009  0.4464  1.6080 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev. Corr
+##  id       (Intercept) 0.4980   0.7057       
+##           sequence    0.5603   0.7485   0.54
+##  Residual             0.5076   0.7125       
+## Number of obs: 100, groups:  id, 50
+## 
+## Fixed effects:
+##                    Estimate Std. Error      df t value Pr(&gt;|t|)    
+## (Intercept)          4.1696     0.1226 48.0000  34.003  &lt; 2e-16 ***
+## treatment            1.2661     0.2452 48.0000   5.163 4.62e-06 ***
+## sequence            -0.6835     0.1775 48.0000  -3.851 0.000348 ***
+## treatment:sequence   0.8483     0.3550 48.0000   2.390 0.020846 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) trtmnt sequnc
+## treatment   0.000               
+## sequence    0.261  0.000        
+## trtmnt:sqnc 0.000  0.261  0.000 
+## convergence code: 0
+## Model is nearly unidentifiable: large eigenvalue ratio
+##  - Rescale variables?</code></pre>
+</div>
 </div>
 <div id="from-maxwell-dalaney-and-kelley-textbook" class="section level1">
 <h1>from Maxwell, Dalaney, and Kelley textbook</h1>

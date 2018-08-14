@@ -233,6 +233,14 @@ oneway(dv = parse_number(as.matrix(mydata[, c("response1", "response2")]) %*% c(
 
 ```
 
+## linear mixed effect model
+
+```{r}
+
+summary(lmer(response ~ treatment * sequence + (1 + sequence | id), data = lmydata, REML = TRUE, control = lmerControl(check.nobs.vs.nlev = "ignore", check.nobs.vs.nRE = "ignore")))
+
+```
+
 # from Maxwell, Dalaney, and Kelley textbook
 
 ## data
