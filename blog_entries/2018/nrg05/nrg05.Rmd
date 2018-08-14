@@ -106,8 +106,23 @@ oneway <- function(dv, group, contrast, alpha = .05) {
 
 ```{r}
 
+# create label
+sleep$group_lbl <- with(sleep, ifelse(group == 1, "drug 1 vs. control", "drug 2 vs. control"))
+
 # The group variable name may be misleading about the data: They represent measurements on 10 persons, not in groups.
 kable(sleep)
+
+```
+
+## visualize
+
+```{r}
+
+ggplot(sleep, mapping = aes(x = group_lbl, y = extra, color = group_lbl)) +
+  geom_violin(alpha = 0) +
+  geom_boxplot(outlier.color = NA, width = 0.25) +
+  geom_point(position = position_jitter(width = 0.10), alpha = 0.50) +
+  theme_bw()
 
 ```
 
@@ -179,6 +194,18 @@ lmydata <- gather(mydata, key = sequence_lbl, value = response, response1:respon
 
 ```
 
+## visualize
+
+```{r}
+
+ggplot(lmydata, mapping = aes(x = sequence_lbl, y = response, color = treatment_lbl)) +
+  geom_violin(position = position_dodge(width = 0.90), alpha = 0) +
+  geom_boxplot(outlier.color = NA, width = 0.25, position = position_dodge(width = 0.90)) +
+  geom_point(position = position_jitterdodge(dodge.width = 0.90, jitter.width = 0.10), alpha = 0.40) +
+  theme_bw()
+
+```
+
 ## treatment effect (between-subjects)
 
 ```{r}
@@ -186,7 +213,7 @@ lmydata <- gather(mydata, key = sequence_lbl, value = response, response1:respon
 # create new columns that averages the responses
 mydata$response_avg <- with(mydata, (response1 + response2) / 2)
 
-# using t-test
+# using t.test
 t.test(response_avg ~ treatment_lbl, data = mydata)
 
 # using oneway function
@@ -204,10 +231,10 @@ oneway(dv = parse_number(as.matrix(mydata[, c("response1", "response2")]) %*% c(
 # create new columns that reflects difference between two response
 mydata$response_diff <- with(mydata, -response1 + response2)
 
-# using t-test on difference score, compare to mean = 0
+# using t.test on difference score, compare to mean = 0
 with(mydata, t.test(response_diff))
 
-# using paired t-test
+# using paired t.test
 t.test(response ~ sequence_lbl, data = lmydata, paired = TRUE)
 
 # using oneway function
@@ -222,7 +249,7 @@ oneway(dv = parse_number(as.matrix(mydata[, c("response1", "response2")]) %*% c(
 
 ```{r}
 
-# using independent samples welch t-test
+# using independent samples welch t.test
 t.test(response_diff ~ treatment_lbl, data = mydata)
 
 # using oneway function
@@ -279,6 +306,18 @@ lC14T8 <- C14T8 %>%
          angle_lbl = recode(angle_num, `0` = "0 degrees", `4` = "4 degrees", `8` = "8 degrees"),
          angle_linear = recode(angle_num, `0` = -0.5, `4` = 0, `8` = 0.5),
          angle_quadratic = recode(angle_num, `0` = 0.5, `4` = -1, `8` = 0.5))
+
+```
+
+## visualize
+
+```{r}
+
+ggplot(lC14T8, mapping = aes(x = angle_lbl, y = rt, color = age_lbl)) +
+  geom_violin(position = position_dodge(width = 0.90), alpha = 0) +
+  geom_boxplot(outlier.color = NA, width = 0.25, position = position_dodge(width = 0.90)) +
+  geom_point(position = position_jitterdodge(dodge.width = 0.90, jitter.width = 0.10), alpha = 0.40) +
+  theme_bw()
 
 ```
 
