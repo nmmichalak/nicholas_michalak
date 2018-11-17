@@ -17,8 +17,8 @@ navbar:
       href: vitae.html
     - text: "Workshops"
       href: workshops.html
-      title: "Blog"
-      right:
+    - text: "Blog"
+      menu:
         - text: Testing Indirect Effects/Mediation in R
           href: blog_entries/2018/nrg01/nrg01.html
         - text: Testing Conditional Indirect Effects in R
