@@ -17,7 +17,6 @@ navbar:
       href: vitae.html
     - text: "Workshops"
       href: workshops.html
-    - text: "Blog"
       title: "Blog"
       right:
         - text: Testing Indirect Effects/Mediation in R
