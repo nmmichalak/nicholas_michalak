@@ -70,7 +70,7 @@ recode <- dplyr::recode
 
 ## Load data
 > From Chapter 11, Table 5 in Maxwell, Delaney, & Kelley (2018)  
-> From `help("C11T5")`: "The data show that 12 participants have been observed in each of 4 conditions. To make the example easier to discuss, let's suppose that the 12 subjects are children who have been observed at 30, 36, 42, and 48 months of age. Essentially, for the present data set, 12 children were each observed four times over an 18 month period. The dependent variable is the age-normed general cognitive score on the McCarthy Scales of Children's Abilities. Interest is to determine if the children were sampled from a population where growth in cognitive ability is more rapid or less rapid than average.""
+> From `help("C11T5")`: "The data show that 12 participants have been observed in each of 4 conditions. To make the example easier to discuss, let's suppose that the 12 subjects are children who have been observed at 30, 36, 42, and 48 months of age. Essentially, for the present data set, 12 children were each observed four times over an 18 month period. The dependent variable is the age-normed general cognitive score on the McCarthy Scales of Children's Abilities. Interest is to determine if the children were sampled from a population where growth in cognitive ability is more rapid or less rapid than average."
 
 ```{r}
 
