@@ -19,7 +19,7 @@ navbar:
       href: workshops.html
     - text: "Blog"
       menu:
-        - text: Testing Indirect Effects/Mediation in R [.html]
+        - text: Testing Indirect Effects/Mediation in R
           href: blog_entries/2018/nrg01/nrg01.html
         - text: Testing Conditional Indirect Effects in R
           href: blog_entries/2018/nrg02/nrg02.html
