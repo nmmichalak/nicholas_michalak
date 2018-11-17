@@ -23,7 +23,7 @@ navbar:
           href: blog_entries/2018/nrg01/nrg01.html
         - text: Testing Conditional Indirect Effects in R
           href: blog_entries/2018/nrg02/nrg02.html
-        - text: R for Psychology Research: A Crash Course
+        - text: "R for Psychology Research: A Crash Course"
           href: blog_entries/2018/nrg03/nrg03.html
         - text: Testing Within-Subjects Contrasts (Repeated Measures) in R
           href: blog_entries/2018/nrg07/nrg07.html
