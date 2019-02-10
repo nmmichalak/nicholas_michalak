@@ -5,4 +5,4 @@ output:
     theme: readable
 ---
 
-> June 2018 [[**.pdf**](https://github.com/nmmichalak/nicholas_michalak/raw/master/vitae/2019/2019_february_vitae_michalak.pdf)]
+> February 2019 [[**.pdf**](https://github.com/nmmichalak/nicholas_michalak/raw/master/vitae/2019/2019_february_vitae_michalak.pdf)]
