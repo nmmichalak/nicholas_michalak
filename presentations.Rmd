@@ -5,6 +5,9 @@ output:
     theme: readable
 ---
 
+## 2019
+> * **Michalak, N.M.**, Takahashi, K.J., & Ackerman, J.M. (2019). Does anger cue coalition membership? Presentation given at the at the Society for Personality and Social Psychology Convention, Portland, OR. [[**Slides**](https://osf.io/spkm7/)]
+
 ## 2018
 > * **Michalak, N.M.** (2018). Good tests replicate. Presentation given at the American Psychological Association Convention, San Fransisco, CA. [[**Slides**](https://osf.io/rdbmh/)]
 > * **Michalak, N.M.**, & Ackerman, J.M. (2018). Infectious disease has many faces: Are they all the same? Presentation given at the Human Behavior and Evolution Society Conference, Amsterdam. New data presented. [[**Slides**](https://osf.io/2d96k/)]

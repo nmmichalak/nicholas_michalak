@@ -1,0 +1,8 @@
+---
+title: "Nicholas M. Michalak"
+output: html_document
+bibliography: docs/nicholasmmichalak.bib
+csl: docs/apa.csl
+---
+
+# References
